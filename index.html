@@ -238,8 +238,14 @@ body::after{
 
 /* 6 ── 关于我 ─────────────────────────── */
 .about-grid{display:grid; grid-template-columns:minmax(220px,300px) 1fr; gap:clamp(2rem,6vw,4rem); align-items:start;}
-.avatar{border-radius:50%; overflow:hidden; box-shadow:0 8px 26px rgba(78,62,46,.16);}
-.avatar svg{width:100%; height:auto;}
+.avatar{position:relative; border-radius:50%; overflow:hidden; box-shadow:0 8px 26px rgba(78,62,46,.16);}
+.avatar svg{width:100%; height:auto; transition:opacity .4s ease;}
+.avatar-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .4s ease;}
+.avatar.has-avatar .avatar-img{opacity:1;}
+.avatar.has-avatar svg{opacity:0;}
+.admin-avatar-btn{position:absolute; left:50%; bottom:8px; transform:translateX(-50%); font-size:.76rem; padding:.2rem .8rem; border-radius:.3rem; border:1px solid rgba(195,81,61,.5); background:rgba(251,247,240,.92); color:var(--huo); cursor:pointer; font-family:var(--font-serif); letter-spacing:.05em; display:none; z-index:3;}
+body.admin-mode .admin-avatar-btn{display:block;}
+.admin-avatar-btn:hover{background:var(--huo); color:var(--mi);}
 .about-text h3{font-size:1.4rem; margin:0 0 .5rem; letter-spacing:.06em;}
 .about-text p{color:var(--shen); margin:.7rem 0;}
 .tags{display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.2rem;}
@@ -487,7 +493,9 @@ body.admin-mode .card details summary::after{display:none;}
 
       <div class="about-grid">
         <!-- 左侧头像（默认是一幅远山+谦印小画；换照片：把 <svg>…</svg> 换成 <img src="你的照片.jpg" style="width:100%;border-radius:50%;">） -->
-        <div class="avatar reveal revealed">
+        <div class="avatar reveal revealed" id="avatarWrap">
+          <!-- 上传的头像（无则隐藏，显示默认小画） -->
+          <img class="avatar-img" id="avatarImg" alt="头像" loading="lazy">
           <svg viewBox="0 0 200 200" aria-hidden="true">
             <defs>
               <linearGradient id="avGrad" x1="0" y1="0" x2="0" y2="1">
@@ -501,6 +509,8 @@ body.admin-mode .card details summary::after{display:none;}
             <circle cx="146" cy="146" r="22" fill="#C13827"></circle>
             <text x="146" y="154" text-anchor="middle" font-size="22" fill="#fff" font-family="serif">谦</text>
           </svg>
+          <!-- 编辑模式下点击上传头像 -->
+          <button class="admin-avatar-btn" id="avatarBtn" title="上传一张图片作为头像">🖼 换头像</button>
         </div>
 
         <div class="about-text reveal revealed">
@@ -658,6 +668,7 @@ body.admin-mode .card details summary::after{display:none;}
   </div>
   <!-- 隐藏的图片选择框（配合卡片上的“🖼 加图”按钮） -->
   <input type="file" id="imgFile" accept="image/*" class="hidden">
+  <input type="file" id="avatarFile" accept="image/*" class="hidden">
 </div>
 
 <!-- 回到顶部按钮 -->
@@ -775,7 +786,8 @@ try { saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch(e){}
 
 var state = (saved && saved.version > embedded.version)
   ? saved
-  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [] };
+  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [], avatar: '' };
+if (!state.avatar) state.avatar = '';
 
 /* 把本机保存过的段落文字重新填回页面 */
 function applyProse(){
@@ -845,6 +857,7 @@ function renderAll(){
   renderArticles();
   renderFragments();
   applyFilter();
+  applyAvatar();
   makeEditable();
 }
 
@@ -936,7 +949,7 @@ function exportFile(){
     var tag = document.getElementById('site-data');
     var orig = tag.innerHTML;                       // 当前页面里内置的旧 JSON
     var newJSON = JSON.stringify(
-      { version: Date.now(), articles: state.articles, fragments: state.fragments },
+      { version: Date.now(), articles: state.articles, fragments: state.fragments, avatar: state.avatar || '' },
       null, 2
     ).replace(/<\//g, '<\\/');                      // 防止正文里的结束标签破坏页面结构
 
@@ -1079,6 +1092,45 @@ document.getElementById('imgFile').addEventListener('change', function(){
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       var dataUrl = c.toDataURL('image/jpeg', 0.75);
       if (state.articles[idx]) { state.articles[idx].image = dataUrl; renderAll(); saveLocal(); status('图片已加入 ✓'); }
+    };
+    img.onerror = function(){ status('图片读取失败'); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(f);
+  this.value = '';
+});
+
+/* —— 头像：显示上传的头像，没有则用默认小画 —— */
+function applyAvatar(){
+  var wrap = document.getElementById('avatarWrap');
+  if (!wrap) return;
+  var has = !!(state.avatar && state.avatar.length > 20);
+  wrap.classList.toggle('has-avatar', has);
+  if (has) document.getElementById('avatarImg').src = state.avatar;
+}
+
+/* 编辑模式：点“换头像”打开选择框 */
+document.getElementById('avatarBtn').addEventListener('click', function(e){
+  e.preventDefault();
+  document.getElementById('avatarFile').click();
+});
+
+/* 头像上传：自动压缩到小尺寸，避免文件卡顿 */
+document.getElementById('avatarFile').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if (!f) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      var maxSide = 400, w = img.width, h = img.height;
+      if (w > maxSide) { h = h * maxSide / w; w = maxSide; }
+      if (h > maxSide) { w = w * maxSide / h; h = maxSide; }
+      var c = document.createElement('canvas');
+      c.width = Math.round(w); c.height = Math.round(h);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      state.avatar = c.toDataURL('image/jpeg', 0.72);
+      applyAvatar(); saveLocal(); status('头像已更新 ✓');
     };
     img.onerror = function(){ status('图片读取失败'); };
     img.src = reader.result;

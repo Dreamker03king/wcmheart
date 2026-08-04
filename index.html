@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN" class="js"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wcmheart · 地山谦 — 记录故事与想法的个人主页</title>
@@ -220,11 +219,6 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
 .avatar svg{width:100%; height:auto;}
 .about-text h3{font-size:1.4rem; margin:0 0 .4rem; letter-spacing:.05em;}
 .about-text p{color:var(--ink-soft); margin:.6rem 0;}
-.placeholder-note{
-  display:inline-block; font-size:.8rem; color:var(--cinnabar);
-  background:rgba(193,56,39,.07); border:1px dashed rgba(193,56,39,.4);
-  border-radius:.5rem; padding:.15rem .7rem; margin:0 0 .6rem;
-}
 .tags{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.1rem;}
 .tags span{
   font-size:.8rem; color:var(--ink-soft);
@@ -286,6 +280,46 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
   color:var(--ink-soft); font-size:.94rem;
 }
 .card-full p{margin:0 0 .5rem;}
+
+/* 展开/收起提示文字 */
+.card-more{display:inline-block; margin-top:.7rem; font-size:.8rem; color:var(--gold); letter-spacing:.06em;}
+.card-more.close-label{display:none;}
+details[open] .card-more.open-label{display:none;}
+details[open] .card-more.close-label{display:inline-block;}
+body.admin-mode .card-more{display:none;}
+
+/* 文章配图 */
+.card-imgwrap{position:relative; overflow:hidden;}
+.card-img{width:100%; height:180px; object-fit:cover; border-radius:1rem 1rem 0 0;}
+
+/* 编辑模式：卡片上的图片工具按钮 */
+.admin-tools{position:absolute; top:2.35rem; right:.5rem; display:none; flex-direction:column; gap:.3rem; z-index:7;}
+body.admin-mode .admin-tools{display:flex;}
+.admin-imgbtn{
+  font-size:.72rem; padding:.14rem .55rem; border-radius:2rem;
+  border:1px solid rgba(193,56,39,.5); background:rgba(255,253,248,.95); color:var(--cinnabar);
+  cursor:pointer;
+}
+.admin-imgbtn:hover{background:var(--cinnabar); color:#fff;}
+.admin-imgdel{
+  position:absolute; top:.6rem; left:.6rem; z-index:6;
+  width:1.5rem; height:1.5rem; border-radius:50%;
+  border:1px solid rgba(255,255,255,.8); background:rgba(0,0,0,.45); color:#fff;
+  font-size:.7rem; cursor:pointer; display:none;
+}
+body.admin-mode .admin-imgdel{display:block;}
+
+/* 分类筛选 */
+.tag-filter{display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; align-items:center; margin-bottom:1.6rem;}
+.tag-chip{
+  font-size:.82rem; color:var(--ink-soft);
+  border:1px solid var(--line); background:var(--paper);
+  padding:.22rem .9rem; border-radius:2rem; cursor:pointer;
+  transition:all .2s ease;
+}
+.tag-chip:hover{border-color:var(--cinnabar); color:var(--cinnabar);}
+.tag-chip.active{background:var(--cinnabar); border-color:var(--cinnabar); color:#fff;}
+.tag-count{font-size:.8rem; color:var(--ink-faint); margin-left:.3rem;}
 
 /* ═══════════════════════════════════════════════════
    7. 想法 / 碎片（竖向时间线）
@@ -469,7 +503,7 @@ body.admin-mode .admin-del{display:block;}
 </style>
 </head>
 
-<body>
+<body class="admin-mode">
 
 <!-- ═══════════════════════════════════
      顶部导航栏
@@ -477,7 +511,7 @@ body.admin-mode .admin-del{display:block;}
 <header class="nav" id="top">
   <a class="nav-logo" href="#top">
     <span class="nav-seal">谦</span>
-    <span data-key="siteName">wcmheart</span>
+    <span data-key="siteName" contenteditable="true">wcmheart</span>
   </a>
   <nav class="nav-links">
     <a href="#about">关于</a>
@@ -496,52 +530,52 @@ body.admin-mode .admin-del{display:block;}
 
     <!-- 远山轮廓线（纯装饰） -->
     <svg class="hero-mountains" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,320 C120,240 210,180 330,200 C440,214 520,150 660,120 C800,90 900,170 1050,140 C1160,118 1300,160 1440,130 L1440,320 Z" fill="rgba(124,139,128,0.10)"/>
-      <path d="M0,320 C180,290 300,240 460,250 C600,258 720,210 880,205 C1020,200 1180,250 1440,220 L1440,320 Z" fill="rgba(124,139,128,0.15)"/>
-      <path d="M0,320 C240,310 400,290 560,295 C760,302 900,282 1080,290 C1220,296 1340,306 1440,300 L1440,320 Z" fill="rgba(124,139,128,0.20)"/>
+      <path d="M0,320 C120,240 210,180 330,200 C440,214 520,150 660,120 C800,90 900,170 1050,140 C1160,118 1300,160 1440,130 L1440,320 Z" fill="rgba(124,139,128,0.10)"></path>
+      <path d="M0,320 C180,290 300,240 460,250 C600,258 720,210 880,205 C1020,200 1180,250 1440,220 L1440,320 Z" fill="rgba(124,139,128,0.15)"></path>
+      <path d="M0,320 C240,310 400,290 560,295 C760,302 900,282 1080,290 C1220,296 1340,306 1440,300 L1440,320 Z" fill="rgba(124,139,128,0.20)"></path>
     </svg>
 
     <div class="hero-inner">
 
-      <p class="hero-eyebrow reveal" data-key="heroEyebrow">WCMHEART · 地山谦 QIÁN</p>
+      <p class="hero-eyebrow reveal revealed" data-key="heroEyebrow" contenteditable="true">明天一定早睡</p>
 
       <!-- ▼▼▼ 地山谦卦象 SVG ▼▼▼
            卦象：上坤下艮，即「地在上、山在下」。
            唯一阳爻「九三」（大山的骨血）埋在阴爻大地之下——
            山藏于地，谦也。我把它点成朱砂红，象征谦逊外表下内蕴的力量。 -->
-      <div class="hero-hex reveal">
+      <div class="hero-hex reveal revealed">
         <span class="hero-orb" aria-hidden="true"></span>
         <svg class="hexagram" viewBox="0 0 320 360" role="img" aria-label="地山谦卦象，山藏于地之下">
-          <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(255,253,246,0.72)" stroke="#C6BAA3" stroke-width="1.2"/>
-          <rect x="29" y="21" width="262" height="318" rx="14" fill="none" stroke="#D8CDB8" stroke-width="0.8" stroke-dasharray="2 3"/>
+          <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(255,253,246,0.72)" stroke="#C6BAA3" stroke-width="1.2"></rect>
+          <rect x="29" y="21" width="262" height="318" rx="14" fill="none" stroke="#D8CDB8" stroke-width="0.8" stroke-dasharray="2 3"></rect>
           <text x="160" y="50" text-anchor="middle" class="hex-title">地山谦</text>
           <text x="160" y="68" text-anchor="middle" class="hex-sub">艮 下 坤 上 · 山 藏 于 地</text>
           <text text-anchor="middle" class="hex-vert"><tspan x="48" y="142">地</tspan><tspan x="48" y="166">山</tspan><tspan x="48" y="190">谦</tspan></text>
           <!-- 六爻：上六 六五 六四（阴·坤/地）→ 九三（阳·艮/山，朱砂红）→ 六二 初六（阴） -->
-          <rect x="72" y="86"  width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="156" y="86" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="72" y="113" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="156" y="113" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="72" y="140" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="156" y="140" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="62" y="160" width="196" height="28" rx="14" fill="rgba(193,56,39,0.12)"/>
-          <rect x="72" y="167" width="176" height="14" rx="7" fill="#C13827"/>
-          <rect x="72" y="194" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="156" y="194" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="72" y="221" width="76" height="14" rx="7" fill="#4A443B"/>
-          <rect x="156" y="221" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="72" y="86" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="86" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="113" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="113" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="140" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="140" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="62" y="160" width="196" height="28" rx="14" fill="rgba(193,56,39,0.12)"></rect>
+          <rect x="72" y="167" width="176" height="14" rx="7" fill="#C13827"></rect>
+          <rect x="72" y="194" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="194" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="221" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="221" width="76" height="14" rx="7" fill="#4A443B"></rect>
           <text x="244" y="100" text-anchor="middle" class="hex-label">坤</text>
           <text x="244" y="180" text-anchor="middle" class="hex-label">艮</text>
-          <rect x="246" y="294" width="40" height="40" rx="5" fill="#C13827"/>
+          <rect x="246" y="294" width="40" height="40" rx="5" fill="#C13827"></rect>
           <text x="266" y="320" text-anchor="middle" class="hex-seal-text">谦</text>
         </svg>
       </div>
 
       <!-- ★ 个人宣言：编辑模式里点这里直接改，或搜 heroTitle -->
-      <h1 class="hero-title reveal" data-key="heroTitle">山藏于地，谦而不卑。</h1>
-      <p class="hero-sub reveal" data-key="heroSub">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
+      <h1 class="hero-title reveal revealed" data-key="heroTitle" contenteditable="true">山藏于地，谦而不卑。</h1>
+      <p class="hero-sub reveal revealed" data-key="heroSub" contenteditable="true">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
 
-      <a class="hero-cta reveal" href="#about">认识我</a>
+      <a class="hero-cta reveal revealed" href="#about">认识我</a>
     </div>
 
     <div class="hero-scroll" aria-hidden="true"></div>
@@ -553,7 +587,7 @@ body.admin-mode .admin-del{display:block;}
   <section class="section" id="about">
     <div class="section-inner">
 
-      <div class="sec-head reveal">
+      <div class="sec-head reveal revealed">
         <p class="sec-eyebrow">ABOUT ME</p>
         <h2 class="sec-title">关于我</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
@@ -562,33 +596,32 @@ body.admin-mode .admin-del{display:block;}
 
       <div class="about-grid">
         <!-- 左侧头像（默认是一幅远山+谦印小画；换照片：把 <svg>…</svg> 换成 <img src="你的照片.jpg" style="width:100%;border-radius:50%;">） -->
-        <div class="avatar reveal">
+        <div class="avatar reveal revealed">
           <svg viewBox="0 0 200 200" aria-hidden="true">
             <defs>
               <linearGradient id="avGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#F6EBD9"/>
-                <stop offset="1" stop-color="#DCE7DC"/>
+                <stop offset="0" stop-color="#F6EBD9"></stop>
+                <stop offset="1" stop-color="#DCE7DC"></stop>
               </linearGradient>
             </defs>
-            <circle cx="100" cy="100" r="99" fill="url(#avGrad)"/>
-            <path d="M0,150 C40,120 70,110 100,115 C130,120 155,95 185,80 C195,75 200,74 200,74 L200,200 L0,200 Z" fill="rgba(124,139,128,0.28)"/>
-            <path d="M0,172 C60,152 110,152 150,160 C175,165 190,168 200,166 L200,200 L0,200 Z" fill="rgba(124,139,128,0.20)"/>
-            <circle cx="146" cy="146" r="22" fill="#C13827"/>
+            <circle cx="100" cy="100" r="99" fill="url(#avGrad)"></circle>
+            <path d="M0,150 C40,120 70,110 100,115 C130,120 155,95 185,80 C195,75 200,74 200,74 L200,200 L0,200 Z" fill="rgba(124,139,128,0.28)"></path>
+            <path d="M0,172 C60,152 110,152 150,160 C175,165 190,168 200,166 L200,200 L0,200 Z" fill="rgba(124,139,128,0.20)"></path>
+            <circle cx="146" cy="146" r="22" fill="#C13827"></circle>
             <text x="146" y="154" text-anchor="middle" font-size="22" fill="#fff" font-family="serif">谦</text>
           </svg>
         </div>
 
-        <div class="about-text reveal">
-          <h3 data-key="aboutName">你好，我是 wcmheart</h3>
-          <span class="placeholder-note">✎ 以下是占位文字，编辑模式里点它们直接改</span>
-          <p data-key="aboutP1">山藏于地，谦而不卑。我热爱自然、文字与一切慢下来才能看见的东西。白天在人群里穿行，夜晚在灯下读书、写字、发呆。（占位：写下你的职业、爱好、正在做的事……）</p>
-          <p data-key="aboutP2">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。</p>
+        <div class="about-text reveal revealed">
+          <h3 data-key="aboutName" contenteditable="true">你好，我是 小明。</h3>
+          <p data-key="aboutP1" contenteditable="true">山藏于地，谦而不卑。我热爱自然、文字与一切慢下来才能看见的东西。白天在人群里穿行，夜晚在灯下读书、写字、发呆。</p>
+          <p data-key="aboutP2" contenteditable="true">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。也记录-丑戌未-三刑每天夜晚的思虑。</p>
           <div class="tags">
             <!-- 标签想增删：编辑模式里点单个标签可改文字；要加新标签就复制一行 <span>…</span> -->
             <span>阅读</span><span>写作</span><span>远山</span><span>茶</span><span>慢生活</span>
           </div>
           <blockquote class="about-note">
-            <p data-key="aboutNote">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p>
+            <p data-key="aboutNote" contenteditable="true">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p>
           </blockquote>
         </div>
       </div>
@@ -602,7 +635,7 @@ body.admin-mode .admin-del{display:block;}
   <section class="section" id="essays">
     <div class="section-inner">
 
-      <div class="sec-head reveal">
+      <div class="sec-head reveal revealed">
         <p class="sec-eyebrow">STORIES &amp; ESSAYS</p>
         <h2 class="sec-title">随笔 · 故事</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
@@ -610,8 +643,11 @@ body.admin-mode .admin-del{display:block;}
       </div>
 
       <!-- 文章卡片由脚本根据 site-data 生成，编辑模式里可增删改 -->
+            <!-- 分类筛选：点标签只看某一类文章（自动生成） -->
+      <div class="tag-filter" id="tagFilter"></div>
+      <!-- 文章卡片由脚本根据 site-data 生成 -->
       <div id="articleList" class="card-grid" aria-label="文章列表"></div>
-      <button id="addArticle" class="admin-add hidden">＋ 新增一篇</button>
+      <button id="addArticle" class="admin-add">＋ 新增一篇</button>
 
     </div>
   </section>
@@ -622,7 +658,7 @@ body.admin-mode .admin-del{display:block;}
   <section class="section" id="fragments">
     <div class="section-inner">
 
-      <div class="sec-head reveal">
+      <div class="sec-head reveal revealed">
         <p class="sec-eyebrow">FRAGMENTS</p>
         <h2 class="sec-title">想法 · 碎片</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
@@ -631,7 +667,7 @@ body.admin-mode .admin-del{display:block;}
 
       <!-- 碎片列表由脚本根据 site-data 生成 -->
       <ol id="fragList" class="frag-list"></ol>
-      <button id="addFragment" class="admin-add hidden">＋ 新增一条</button>
+      <button id="addFragment" class="admin-add">＋ 新增一条</button>
 
     </div>
   </section>
@@ -642,42 +678,42 @@ body.admin-mode .admin-del{display:block;}
   <section class="section" id="contact">
     <div class="section-inner">
 
-      <div class="sec-head reveal">
+      <div class="sec-head reveal revealed">
         <p class="sec-eyebrow">CONTACT</p>
         <h2 class="sec-title">联系我</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
         <p class="sec-sub">愿与你分享故事。</p>
       </div>
 
-      <div class="contact-card reveal">
-        <h3 data-key="contactTitle">愿你收到一封来自山间的信</h3>
-        <p data-key="contactText">无论是想聊聊文章，还是讲讲你的山与海，都让我很高兴。</p>
+      <div class="contact-card reveal revealed">
+        <h3 data-key="contactTitle" contenteditable="true">愿你收到一封来自山间的信</h3>
+        <p data-key="contactText" contenteditable="true">无论是想聊聊文章，还是讲讲你的山与海，都让我很高兴。</p>
         <div class="contact-links">
           <!-- 邮箱：编辑模式里点邮箱文字直接改，改了链接也会自动更新 -->
-          <a class="contact-item" href="mailto:hello@wcmheart.com">
+          <a class="contact-item" href="mailto:1654392950@qq.com">
             <span class="c-icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
             </span>
-            <span class="c-label" data-key="contactEmail">hello@wcmheart.com</span>
+            <span class="c-label" data-key="contactEmail" contenteditable="true">1654392950@qq.com</span>
           </a>
           <!-- 个人网站：wcmheart 的正式地址 -->
           <a class="contact-item" href="https://Dreamker03king.github.io/wcmheart/" target="_blank" rel="noopener">
             <span class="c-icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4.2" ry="9"/><path d="M3 12h18"/></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="4.2" ry="9"></ellipse><path d="M3 12h18"></path></svg>
             </span>
             <span class="c-label">Dreamker03king.github.io/wcmheart</span>
           </a>
           <!-- 公众号 / 微信：把 href="#" 换成你的链接 -->
           <a class="contact-item" href="#">
             <span class="c-icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-5 5v-4a3 3 0 0 1-1-2.2V6z"/><path d="M8 10.5h.01M12 10.5h.01M16 10.5h.01" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-5 5v-4a3 3 0 0 1-1-2.2V6z"></path><path d="M8 10.5h.01M12 10.5h.01M16 10.5h.01" stroke-linecap="round"></path></svg>
             </span>
             <span class="c-label">公众号：wcmheart</span>
           </a>
           <!-- GitHub / 其他社交：把 href="#" 换成你的主页 -->
           <a class="contact-item" href="#" target="_blank" rel="noopener">
             <span class="c-icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.7.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.5-1.1-4.5-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.6 1a9 9 0 0 1 4.8 0c1.8-1.3 2.6-1 2.6-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.5 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.4 6.8-5.2 6.8-9.7C22 6.6 17.5 2 12 2z"/></svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.7.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.5-1.1-4.5-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.6 1a9 9 0 0 1 4.8 0c1.8-1.3 2.6-1 2.6-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.5 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.4 6.8-5.2 6.8-9.7C22 6.6 17.5 2 12 2z"></path></svg>
             </span>
             <span class="c-label">GitHub</span>
           </a>
@@ -704,7 +740,7 @@ body.admin-mode .admin-del{display:block;}
      ═══════════════════════════════════ -->
 <div id="adminUI">
   <!-- 左下角齿轮：点它输入密码进入编辑模式（访客也可以点，但没密码进不来） -->
-  <button id="adminGear" class="admin-gear" title="站长入口" aria-label="站长入口">⚙</button>
+  <button id="adminGear" class="admin-gear hidden" title="站长入口" aria-label="站长入口">⚙</button>
 
   <!-- 密码弹窗 -->
   <div id="adminModal" class="admin-modal hidden" role="dialog" aria-label="站长登录">
@@ -719,15 +755,17 @@ body.admin-mode .admin-del{display:block;}
   </div>
 
   <!-- 编辑模式底栏 -->
-  <div id="adminBar" class="admin-bar hidden">
-    <span class="status" id="adminStatus">编辑模式</span>
+  <div id="adminBar" class="admin-bar">
+    <span class="status" id="adminStatus">已自动保存到本机 ✓</span>
     <button class="admin-btn primary" id="btnExport">⬇ 导出新文件</button>
     <button class="admin-btn" id="btnExit">退出</button>
   </div>
+  <!-- 隐藏的图片选择框（配合卡片上的“🖼 加图”按钮） -->
+  <input type="file" id="imgFile" accept="image/*" class="hidden">
 </div>
 
 <!-- 回到顶部按钮 -->
-<a class="to-top" href="#top" id="toTop" aria-label="回到顶部">↑</a>
+<a class="to-top show" href="#top" id="toTop" aria-label="回到顶部">↑</a>
 
 <!-- ═══════════════════════════════════════════════════
      站点内容数据（文章、碎片都存这里）
@@ -735,27 +773,85 @@ body.admin-mode .admin-del{display:block;}
      · 每条文章字段：tag 分类 / title 标题 / date 日期 / teaser 摘要 / body 正文
      · 每条碎片字段：time 日期 / text 短句 / tag 标签
      ═══════════════════════════════════════════════════ -->
-<script type="application/json" id="site-data">
-{
-  "version": 0,
+<script type="application/json" id="site-data">{
+  "version": 1785823765522,
   "articles": [
-    {"tag":"随笔","title":"一杯茶的时间","date":"2026-07-21 · 3 分钟","teaser":"沸水注入，茶叶慢慢舒展，世界忽然安静下来。","body":"（占位正文：这里写文章的完整内容。可以多写几段，回车换行。）"},
-    {"tag":"故事","title":"把山装进口袋","date":"2026-06-30 · 5 分钟","teaser":"在山里走了三天，我学会把沉默装进口袋。","body":"（占位正文：这里写文章的完整内容。）"},
-    {"tag":"读书","title":"读《谦》卦的笔记","date":"2026-06-11 · 4 分钟","teaser":"六十四卦里，唯有这一卦六爻皆吉。","body":"（占位正文：这里写文章的完整内容。）"},
-    {"tag":"旅行","title":"秋日远行","date":"2025-11-03 · 6 分钟","teaser":"秋天是最适合出发的季节，风凉了，心也轻了。","body":"（占位正文：这里写文章的完整内容。）"},
-    {"tag":"随笔","title":"雨天的窗","date":"2026-05-17 · 2 分钟","teaser":"下雨的时候，窗子变成了一幅会动的画。","body":"（占位正文：这里写文章的完整内容。）"},
-    {"tag":"想法","title":"慢下来的勇气","date":"2026-04-08 · 3 分钟","teaser":"快是一种能力，慢是一种勇气。","body":"（占位正文：这里写文章的完整内容。）"}
+    {
+      "tag": "随笔",
+      "title": "一杯茶的时间",
+      "date": "2026-07-21 · 3 分钟",
+      "teaser": "沸水注入，茶叶慢慢舒展，世界忽然安静下来。",
+      "body": "（占位正文：这里写文章的完整内容。可以多写几段，回车换行。）"
+    },
+    {
+      "tag": "故事",
+      "title": "把山装进口袋",
+      "date": "2026-06-30 · 5 分钟",
+      "teaser": "在山里走了三天，我学会把沉默装进口袋。",
+      "body": "（占位正文：这里写文章的完整内容。）"
+    },
+    {
+      "tag": "读书",
+      "title": "读书藏馆",
+      "date": "2026-06-11 · 4 分钟",
+      "teaser": "六十四卦里，唯有这一卦六爻皆吉。",
+      "body": "读书藏馆："
+    },
+    {
+      "tag": "旅行",
+      "title": "秋日远行",
+      "date": "2025-11-03 · 6 分钟",
+      "teaser": "秋天是最适合出发的季节，风凉了，心也轻了。",
+      "body": "（占位正文：这里写文章的完整内容。）"
+    },
+    {
+      "tag": "随笔",
+      "title": "雨天的窗",
+      "date": "2026-05-17 · 2 分钟",
+      "teaser": "下雨的时候，窗子变成了一幅会动的画。",
+      "body": "（占位正文：这里写文章的完整内容。）"
+    },
+    {
+      "tag": "想法",
+      "title": "慢下来的勇气",
+      "date": "2026-04-08 · 3 分钟",
+      "teaser": "快是一种能力，慢是一种勇气。",
+      "body": "（占位正文：这里写文章的完整内容。）"
+    }
   ],
   "fragments": [
-    {"time":"07-28","text":"「山不矜高，自及于天。」","tag":"今日"},
-    {"time":"07-19","text":"今晚的风很轻，像有人在山的那一边深呼吸。","tag":"低语"},
-    {"time":"07-11","text":"谦卑不是否定自己，是给成长留出空间。","tag":"灵光"},
-    {"time":"06-27","text":"整理房间的时候，也在整理自己的心。","tag":"日常"},
-    {"time":"06-15","text":"读完《乾卦》，忽然明白了什么叫「自强不息」。","tag":"读书"},
-    {"time":"05-30","text":"路还长，慢慢走，山会一直在那里。","tag":"夜里"}
+    {
+      "time": "07-28",
+      "text": "「山不矜高，自及于天。」",
+      "tag": "今日"
+    },
+    {
+      "time": "07-19",
+      "text": "今晚的风很轻，像有人在山的那一边深呼吸。",
+      "tag": "低语"
+    },
+    {
+      "time": "07-11",
+      "text": "谦卑不是否定自己，是给成长留出空间。",
+      "tag": "灵光"
+    },
+    {
+      "time": "06-27",
+      "text": "整理房间的时候，也在整理自己的心。",
+      "tag": "日常"
+    },
+    {
+      "time": "06-15",
+      "text": "读完《乾卦》，忽然明白了什么叫「自强不息」。",
+      "tag": "读书"
+    },
+    {
+      "time": "05-30",
+      "text": "路还长，慢慢走，山会一直在那里。",
+      "tag": "夜里"
+    }
   ]
-}
-</script>
+}</script>
 
 <script>
 /* ═══════════════════════════════════════════════════
@@ -771,7 +867,7 @@ var ADMIN_PASSWORD = 'qian2026';
 
 var LS_KEY = 'wcmheart_site_v1';
 
-/* —— 读取内置数据（页面里的 <script id="site-data">）—— */
+/* —— 读取内置数据（页面里的 site-data 数据块）—— */
 var embedded = { version: 0, articles: [], fragments: [] };
 try { embedded = JSON.parse(document.getElementById('site-data').textContent.trim() || '{}'); }
 catch(e){ console.warn('站点数据解析失败', e); }
@@ -810,7 +906,15 @@ function esc(s){
 function renderArticles(){
   var box = document.getElementById('articleList');
   box.innerHTML = state.articles.map(function(a, i){
-    return '<article class="card reveal revealed" data-idx="'+i+'">'
+    /* 有图片就显示在卡片顶部 */
+    var img = a.image ? '<div class="card-imgwrap"><img class="card-img" src="'+esc(a.image)+'" alt="" loading="lazy"><button class="admin-imgdel" data-img-del="'+i+'" title="移除这张图片">✕</button></div>' : '';
+    /* 编辑模式下显示的两个图片按钮（🖼 从电脑选图 / 🔗 填网址） */
+    var tools = '<span class="admin-tools">'
+      + '<button class="admin-imgbtn" data-img-file="'+i+'" title="从电脑选一张图片">🖼 加图</button>'
+      + '<button class="admin-imgbtn" data-img-url="'+i+'" title="粘贴图片网址">🔗 网址</button>'
+      + '</span>';
+    return '<article class="card reveal revealed" data-idx="'+i+'" data-tag="'+esc(a.tag)+'">'
+      + img + tools
       + '<button class="admin-del" data-del-article="'+i+'" title="删除这篇">✕</button>'
       + '<details>'
       +   '<summary>'
@@ -818,8 +922,10 @@ function renderArticles(){
       +     '<h3 data-edit="title">'+esc(a.title)+'</h3>'
       +     '<p class="card-meta" data-edit="date">'+esc(a.date)+'</p>'
       +     '<p class="card-teaser" data-edit="teaser">'+esc(a.teaser)+'</p>'
+      +     '<span class="card-more open-label">展开阅读 ▾</span>'
+      +     '<span class="card-more close-label">收起 ▴</span>'
       +   '</summary>'
-      +   '<div class="card-full"><p data-edit="body">'+esc(a.body).replace(/\n/g,'<br>')+'</p></div>'
+      +   '<div class="card-full"><div class="card-body" data-edit="body">'+esc(a.body)+'</div></div>'
       + '</details>'
       + '</article>';
   }).join('');
@@ -839,8 +945,10 @@ function renderFragments(){
 }
 
 function renderAll(){
+  renderFilter();
   renderArticles();
   renderFragments();
+  applyFilter();
   makeEditable();
 }
 
@@ -870,13 +978,39 @@ function status(msg){
 
 /* —— 新增 / 删除 —— */
 function addArticle(){
-  state.articles.push({ tag:'随笔', title:'新的一篇', date:'2026-08-04 · 3 分钟', teaser:'写下你的开头……', body:'在这里写正文，回车可以换行。' });
+  state.articles.push({ tag:'随笔', title:'新的一篇', date:'2026-08-04 · 3 分钟', teaser:'写下你的开头……', body:'在这里写正文，回车可以换行。', image:'' });
   renderAll(); saveLocal();
 }
 function addFragment(){
   state.fragments.push({ time:'08-04', text:'一句新的想法……', tag:'灵光' });
   renderAll(); saveLocal();
 }
+
+/* —— 分类筛选：点标签只看某一类文章（游客也能用）—— */
+var currentFilter = 'all';
+function renderFilter(){
+  var box = document.getElementById('tagFilter');
+  if (!box) return;
+  var tags = [];
+  state.articles.forEach(function(a){ if (a.tag && tags.indexOf(a.tag) < 0) tags.push(a.tag); });
+  var chips = '<button class="tag-chip'+(currentFilter==='all' ? ' active':'')+'" data-filter="all">全部</button>';
+  tags.forEach(function(t){
+    chips += '<button class="tag-chip'+(currentFilter===t ? ' active':'')+'" data-filter="'+esc(t)+'">'+esc(t)+'</button>';
+  });
+  chips += '<span class="tag-count">共 '+state.articles.length+' 篇</span>';
+  box.innerHTML = chips;
+}
+function applyFilter(){
+  var cards = document.querySelectorAll('#articleList .card');
+  for (var i = 0; i < cards.length; i++){
+    var c = cards[i];
+    c.style.display = (currentFilter === 'all' || c.getAttribute('data-tag') === currentFilter) ? '' : 'none';
+  }
+}
+document.addEventListener('click', function(e){
+  var chip = e.target.closest && e.target.closest('.tag-chip');
+  if (chip) { currentFilter = chip.getAttribute('data-filter'); renderFilter(); applyFilter(); return; }
+});
 
 /* —— 进入 / 退出编辑模式 —— */
 function enterEditMode(){
@@ -908,6 +1042,11 @@ function exportFile(){
       null, 2
     ).replace(/<\//g, '<\\/');                      // 防止正文里的结束标签破坏页面结构
 
+    /* 先把界面上的卡片清空，导出的文件里只留干净容器，打开时脚本会重新生成 */
+    var al = document.getElementById('articleList');
+    var fl = document.getElementById('fragList');
+    al.innerHTML = ''; fl.innerHTML = '';
+
     var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     html = html.replace(orig, newJSON);             // 用新数据替换内置数据
 
@@ -917,6 +1056,8 @@ function exportFile(){
     a.download = 'index.html';
     document.body.appendChild(a); a.click();
     setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+
+    renderAll();                                    // 恢复界面上的卡片
 
     status('已生成新文件：用下载的 index.html 覆盖本地并上传发布');
   } catch(err){
@@ -968,13 +1109,16 @@ document.addEventListener('input', function(e){
     return;
   }
 
-  /* 文章/碎片里的字段（data-edit） */
-  var edit = t.getAttribute && t.getAttribute('data-edit');
-  var item = t.closest && t.closest('[data-idx]');
-  if (edit && item) {
-    var idx = +item.getAttribute('data-idx');
-    var list = item.closest('#articleList') ? state.articles : state.fragments;
-    if (list && list[idx]) { list[idx][edit] = t.innerText; saveLocal(); }
+  /* 文章/碎片里的字段（data-edit，可能在嵌套元素里，用 closest 找到） */
+  var edEl = t.closest && t.closest('[data-edit]');
+  if (edEl && !edEl.hasAttribute('data-key')) {
+    var edit = edEl.getAttribute('data-edit');
+    var item = edEl.closest('[data-idx]');
+    if (item) {
+      var idx = +item.getAttribute('data-idx');
+      var list = item.closest('#articleList') ? state.articles : state.fragments;
+      if (list && list[idx]) { list[idx][edit] = edEl.innerText; saveLocal(); }
+    }
   }
 });
 
@@ -985,6 +1129,46 @@ document.addEventListener('click', function(e){
   if (da) { state.articles.splice(+da.getAttribute('data-del-article'), 1); renderAll(); saveLocal(); return; }
   var df = e.target.closest && e.target.closest('[data-del-fragment]');
   if (df) { state.fragments.splice(+df.getAttribute('data-del-fragment'), 1); renderAll(); saveLocal(); return; }
+  /* 移除文章图片 */
+  var idel = e.target.closest && e.target.closest('[data-img-del]');
+  if (idel) { var ia = state.articles[+idel.getAttribute('data-img-del')]; if (ia) { ia.image = ''; renderAll(); saveLocal(); } return; }
+  /* 从电脑选图片 */
+  var ifile = e.target.closest && e.target.closest('[data-img-file]');
+  if (ifile) { document.getElementById('imgFile')._idx = +ifile.getAttribute('data-img-file'); document.getElementById('imgFile').click(); return; }
+  /* 粘贴图片网址 */
+  var iurl = e.target.closest && e.target.closest('[data-img-url]');
+  if (iurl) {
+    var idxU = +iurl.getAttribute('data-img-url');
+    var cur = state.articles[idxU] ? state.articles[idxU].image : '';
+    var url = prompt('粘贴图片的网址（https://…）', (cur && cur.indexOf('http') === 0) ? cur : '');
+    if (url && url !== null) { if (state.articles[idxU]) { state.articles[idxU].image = url.trim(); renderAll(); saveLocal(); } }
+    return;
+  }
+});
+
+/* 从电脑选图：自动压缩后转成 base64 存进文章，单文件依然不依赖外链图片 */
+document.getElementById('imgFile').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if (!f) return;
+  var idx = this._idx;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      var maxSide = 1200, w = img.width, h = img.height;
+      if (w > maxSide) { h = h * maxSide / w; w = maxSide; }
+      if (h > maxSide) { w = w * maxSide / h; h = maxSide; }
+      var c = document.createElement('canvas');
+      c.width = Math.round(w); c.height = Math.round(h);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      var dataUrl = c.toDataURL('image/jpeg', 0.75);
+      if (state.articles[idx]) { state.articles[idx].image = dataUrl; renderAll(); saveLocal(); status('图片已加入 ✓'); }
+    };
+    img.onerror = function(){ status('图片读取失败'); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(f);
+  this.value = '';
 });
 
 /* ================= 初始化：渲染 + 恢复 + 动效 ================= */
@@ -1023,5 +1207,6 @@ catch(e){ console.warn('初始化出错：', e); }
 })();
 </script>
 
-</body>
-</html>
+
+
+</body></html>

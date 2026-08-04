@@ -40,28 +40,28 @@
    0. 设计变量（改颜色就改这里）
    ═══════════════════════════════════════════════════ */
 :root{
-  /* 深琥珀土底色：Warm Earth & Ember 主题 */
-  --bg-1:#2E241B;
-  --bg-2:#3A2C20;
-  --bg-3:#211913;
+  /* 背景三色：米白 → 浅杏 → 淡青绿 */
+  --bg-1:#FBF7EF;
+  --bg-2:#F6EBD9;
+  --bg-3:#E9EFE6;
 
-  /* 文字：暖米（在深色底上清晰） */
-  --ink:#F0E4D2;
-  --ink-soft:#CDBCA5;
-  --ink-faint:#9C8870;
+  /* 文字：暖墨色系 */
+  --ink:#403A31;
+  --ink-soft:#6B6154;
+  --ink-faint:#9C8F7D;
 
-  /* 线条与深纸面 */
-  --line:#574434;
-  --line-soft:#3D2F23;
-  --paper:#3A2D22;
+  /* 线条与纸面 */
+  --line:#D8CDB8;
+  --line-soft:#E9E1D2;
+  --paper:#FFFDF8;
 
-  /* 点缀：烬火朱砂（在深底上更亮）+ 暖金 */
-  --cinnabar:#E0653A;
-  --cinnabar-deep:#C24E28;
-  --gold:#D9A75C;
+  /* 点缀：朱砂红 + 暖金 */
+  --cinnabar:#C13827;
+  --cinnabar-deep:#A52D20;
+  --gold:#B99A5F;
 
   /* 远山颜色 */
-  --mount:#7A5B40;
+  --mount:#7C8B80;
 
   /* 字体：中文用思源宋体/黑体/楷体，英文用衬线 */
   --font-serif:"Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","Songti SC","STSong","SimSun","宋体",serif;
@@ -87,26 +87,38 @@ body{
   font-size:1rem;
   line-height:1.85;
   overflow-x:hidden;
-  /* 底色：深琥珀土 #3E2723（Warm Earth & Ember） */
-  background-color:#3E2723;
-  /* 黏土质感：SVG 噪声纹理与底色 overlay 混合（粗糙黏土/手工纸） */
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.78 0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23c)'/%3E%3C/svg%3E");
-  background-blend-mode:overlay;
+  /* Wabi-Sabi 黏土底色：暖米 / 浅陶土 */
+  background-color:#F5F0E6;
+  /* 细节：随机分布的“铁”点（深棕/橙色小圆点，模拟陶器上的铁斑） */
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Ccircle cx='42' cy='58' r='1.5' fill='%238A5A34' opacity='.35'/%3E%3Ccircle cx='132' cy='32' r='1.2' fill='%23A65A2E' opacity='.3'/%3E%3Ccircle cx='172' cy='122' r='1.6' fill='%237A4A2A' opacity='.28'/%3E%3Ccircle cx='92' cy='152' r='1.2' fill='%23B05A2E' opacity='.25'/%3E%3Ccircle cx='26' cy='172' r='1.1' fill='%238A5A34' opacity='.3'/%3E%3Ccircle cx='152' cy='182' r='1.4' fill='%23A65A2E' opacity='.22'/%3E%3Ccircle cx='200' cy='60' r='1' fill='%237A4A2A' opacity='.25'/%3E%3Ccircle cx='60' cy='110' r='1.3' fill='%23A65A2E' opacity='.2'/%3E%3C/svg%3E");
+  background-repeat:repeat;
+  background-size:240px 240px;
   background-attachment:fixed;
 }
 
-/* —— 火：页面中央的烬火暖光（柔和的中央 vignette）—— */
+/* —— 中央聚光 + 手拉坯表面的不平整感（多层 inset 阴影）—— */
 body::before{
   content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:radial-gradient(circle at 50% 40%, rgba(224,101,58,.22) 0%, rgba(224,101,58,.08) 32%, rgba(28,19,13,.35) 74%, rgba(18,12,8,.62) 100%);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 40%),
+    radial-gradient(ellipse at 50% 50%, rgba(214,190,150,0) 32%, rgba(200,168,120,.16) 72%, rgba(176,140,95,.22) 100%);
+  box-shadow:
+    inset 0 0 60px rgba(160,125,85,.10),
+    inset 0 0 150px rgba(150,115,75,.12),
+    inset 0 -40px 90px rgba(140,105,70,.10),
+    inset 0 10px 40px rgba(255,250,240,.35),
+    inset 3px 3px 8px rgba(255,255,255,.30),
+    inset -3px -3px 8px rgba(170,130,90,.12);
 }
 
-/* —— 土：整页叠加的黏土/手工纸质感（overlay 混合，低透明度）—— */
+/* —— 淡淡的笔触纹理（烧赭橙，multiply 混合，非常克制）—— */
 body::after{
   content:""; position:fixed; inset:0; z-index:9990; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.78 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23t)'/%3E%3C/svg%3E");
-  mix-blend-mode:overlay;
-  opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cpath d='M-20 60 C80 40 150 90 240 70 C300 55 360 80 430 60 C500 45 550 70 620 52' fill='none' stroke='%238A4A24' stroke-width='9' stroke-linecap='round' opacity='.05'/%3E%3Cpath d='M-10 200 C90 180 170 230 270 210 C350 195 430 225 520 205 C560 197 590 210 620 202' fill='none' stroke='%23A65A2E' stroke-width='13' stroke-linecap='round' opacity='.045'/%3E%3Cpath d='M-20 320 C100 300 200 350 320 330 C420 315 510 340 620 322' fill='none' stroke='%237A4A2A' stroke-width='7' stroke-linecap='round' opacity='.05'/%3E%3Cpath d='M80 30 C120 42 140 20 180 34' fill='none' stroke='%23A65A2E' stroke-width='6' stroke-linecap='round' opacity='.04'/%3E%3Cpath d='M400 360 C450 345 490 372 540 358' fill='none' stroke='%238A4A24' stroke-width='8' stroke-linecap='round' opacity='.045'/%3E%3C/svg%3E");
+  background-repeat:repeat;
+  background-size:600px 400px;
+  mix-blend-mode:multiply;
+  opacity:.55;
 }
 
 img,svg{display:block; max-width:100%;}
@@ -123,9 +135,9 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
   position:fixed; top:0; left:0; right:0; z-index:100;
   display:flex; align-items:center; justify-content:space-between;
   padding:.8rem clamp(1rem,4vw,2.5rem);
-  background:rgba(30,21,15,.78);
+  background:rgba(251,247,239,.85);
   -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(255,200,140,.10);
+  border-bottom:1px solid rgba(180,160,130,.18);
 }
 .nav-logo{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--ink); font-weight:600; letter-spacing:.08em;}
 .nav-seal{
@@ -162,14 +174,14 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
 .hero-orb{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:min(72vw,330px); aspect-ratio:1; border-radius:50%;
-  background:radial-gradient(circle, rgba(224,101,58,.28) 0%, rgba(224,101,58,0) 68%);
+  background:radial-gradient(circle, rgba(193,56,39,.13) 0%, rgba(193,56,39,0) 68%);
 }
 .hexagram{position:relative; width:min(68vw,300px); height:auto;}
-/* 卦象内的文字样式（深色羊皮纸上用暖米字） */
-.hex-title{font-family:var(--font-serif); font-size:19px; letter-spacing:.35em; fill:#F0E4D2;}
-.hex-sub{font-size:9px; letter-spacing:.28em; fill:#A08C74;}
-.hex-vert{font-family:var(--font-serif); font-size:17px; letter-spacing:.3em; fill:#F0E4D2;}
-.hex-label{font-size:12px; font-family:var(--font-serif); fill:#CDBCA5;}
+/* 卦象内的文字样式（宣纸底上用墨色字） */
+.hex-title{font-family:var(--font-serif); font-size:19px; letter-spacing:.35em; fill:#403A31;}
+.hex-sub{font-size:9px; letter-spacing:.28em; fill:#9C8F7D;}
+.hex-vert{font-family:var(--font-serif); font-size:17px; letter-spacing:.3em; fill:#403A31;}
+.hex-label{font-size:12px; font-family:var(--font-serif); fill:#7A6E5C;}
 .hex-seal-text{font-family:var(--font-serif); font-size:21px; fill:#FFF6ED;}
 .hero-title{
   font-family:var(--font-kai);
@@ -208,8 +220,8 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
   font-family:var(--font-kai); font-weight:900;
   font-size:clamp(13rem,38vw,30rem);
   line-height:.95;
-  color:#E0653A; opacity:.14;
-  text-shadow:0 0 34px rgba(224,101,58,.22);
+  color:#403A31; opacity:.15;
+  text-shadow:2px 2px 0 rgba(64,58,49,.06), -1px -1px 0 rgba(255,255,255,.05);
   z-index:1; pointer-events:none; user-select:none;
 }
 
@@ -242,8 +254,8 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
 .sec-rule .rule-diamond{color:var(--cinnabar); font-size:.55rem; transform:rotate(45deg); display:inline-block;}
 .sec-sub{max-width:560px; margin:.9rem auto 0; color:var(--ink-soft); font-size:.95rem;}
 
-#essays{background:linear-gradient(180deg, transparent 0%, rgba(255,168,90,.05) 10%, rgba(255,168,90,.05) 90%, transparent 100%);}
-#fragments{background:linear-gradient(180deg, transparent 0%, rgba(232,210,170,.04) 10%, rgba(232,210,170,.04) 90%, transparent 100%);}
+#essays{background:linear-gradient(180deg, transparent 0%, rgba(250,244,231,.72) 10%, rgba(250,244,231,.72) 90%, transparent 100%);}
+#fragments{background:linear-gradient(180deg, transparent 0%, rgba(236,242,236,.66) 10%, rgba(236,242,236,.66) 90%, transparent 100%);}
 
 /* ═══════════════════════════════════════════════════
    5. 关于我
@@ -268,7 +280,7 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
 .about-note{
   margin:1.6rem 0 0; padding:.8rem 1.1rem;
   border-left:3px solid var(--cinnabar);
-  background:rgba(58,45,34,.85); border-radius:0 .6rem .6rem 0;
+  background:rgba(255,253,248,.75); border-radius:0 .6rem .6rem 0;
   color:var(--ink-soft); font-size:.92rem;
 }
 .about-note p{margin:0;}
@@ -286,13 +298,13 @@ h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
   background:var(--paper);
   border:1px solid var(--line);
   border-radius:1rem;
-  box-shadow:0 2px 12px rgba(0,0,0,.35);
+  box-shadow:0 2px 10px rgba(160,130,90,.06);
   transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .card:hover{
   transform:translateY(-4px);
   border-color:var(--gold);
-  box-shadow:0 16px 34px rgba(0,0,0,.5);
+  box-shadow:0 14px 30px rgba(160,130,90,.14);
 }
 .card details summary{
   position:relative;
@@ -337,7 +349,7 @@ body.admin-mode .card-more{display:none;}
 body.admin-mode .admin-tools{display:flex;}
 .admin-imgbtn{
   font-size:.72rem; padding:.14rem .55rem; border-radius:2rem;
-  border:1px solid rgba(224,101,58,.5); background:rgba(45,33,24,.95); color:var(--cinnabar);
+  border:1px solid rgba(193,56,39,.5); background:rgba(255,253,248,.95); color:var(--cinnabar);
   cursor:pointer;
 }
 .admin-imgbtn:hover{background:var(--cinnabar); color:#fff;}
@@ -389,11 +401,11 @@ body.admin-mode .admin-imgdel{display:block;}
    ═══════════════════════════════════════════════════ */
 .contact-card{
   max-width:640px; margin:0 auto;
-  background:rgba(50,39,30,.85);
+  background:rgba(255,253,248,.8);
   border:1px solid var(--line); border-radius:1.2rem;
   padding:clamp(2rem,5vw,3rem) clamp(1.4rem,4vw,2.6rem);
   text-align:center;
-  box-shadow:0 12px 34px rgba(0,0,0,.4);
+  box-shadow:0 12px 34px rgba(150,120,80,.1);
 }
 .contact-card h3{font-size:1.5rem; margin:0 0 .6rem; letter-spacing:.08em;}
 .contact-card p{color:var(--ink-soft); margin:0;}
@@ -414,7 +426,7 @@ body.admin-mode .admin-imgdel{display:block;}
 .c-icon{
   display:grid; place-items:center;
   width:2.5rem; height:2.5rem; border-radius:50%;
-  background:#453326; color:var(--cinnabar);
+  background:#F6EBD9; color:var(--cinnabar);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -436,11 +448,11 @@ body.admin-mode .admin-imgdel{display:block;}
   position:fixed; right:1.4rem; bottom:1.4rem; z-index:90;
   width:2.6rem; height:2.6rem; border-radius:50%;
   display:grid; place-items:center;
-  background:rgba(40,30,22,.9); border:1px solid var(--line);
+  background:rgba(255,253,248,.9); border:1px solid var(--line);
   color:var(--ink-soft); text-decoration:none;
   opacity:0; transform:translateY(8px); pointer-events:none;
   transition:opacity .3s ease, transform .3s ease;
-  box-shadow:0 4px 12px rgba(0,0,0,.4);
+  box-shadow:0 4px 12px rgba(150,120,80,.15);
 }
 .to-top.show{opacity:1; transform:none; pointer-events:auto;}
 .to-top:hover{color:var(--cinnabar);}
@@ -454,14 +466,14 @@ body.admin-mode .admin-imgdel{display:block;}
 .admin-gear{
   position:fixed; left:1.1rem; bottom:1.1rem; z-index:200;
   width:2.3rem; height:2.3rem; border-radius:50%;
-  border:1px solid var(--line); background:rgba(40,30,22,.85);
+  border:1px solid var(--line); background:rgba(255,253,248,.85);
   color:var(--ink-faint); font-size:1rem; cursor:pointer;
   opacity:.5; transition:opacity .2s ease, transform .2s ease;
 }
 .admin-gear:hover{opacity:1; color:var(--cinnabar); transform:rotate(60deg);}
 
 /* 密码弹窗 */
-.admin-modal{position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(12,9,6,.65); backdrop-filter:blur(2px);}
+.admin-modal{position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(64,58,49,.4); backdrop-filter:blur(2px);}
 .admin-modal-box{background:var(--paper); border:1px solid var(--line); border-radius:1rem; padding:1.8rem; width:min(90vw,320px); text-align:center; box-shadow:0 16px 40px rgba(80,60,40,.25);}
 .admin-modal-box p{margin:0 0 .9rem; color:var(--ink-soft); font-size:.9rem;}
 .admin-modal-box input{width:100%; padding:.5rem .7rem; border:1px solid var(--line); border-radius:.5rem; font-size:1rem; text-align:center; margin-bottom:.8rem;}
@@ -473,13 +485,13 @@ body.admin-mode .admin-imgdel{display:block;}
   position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:200;
   display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
   padding:.5rem .9rem; max-width:94vw;
-  background:rgba(38,28,20,.95); border:1px solid var(--line); border-radius:2rem;
-  box-shadow:0 8px 24px rgba(0,0,0,.45);
+  background:rgba(255,253,248,.95); border:1px solid var(--line); border-radius:2rem;
+  box-shadow:0 8px 24px rgba(80,60,40,.15);
   font-size:.82rem; color:var(--ink-soft);
 }
 .admin-bar .status{color:var(--cinnabar);}
 
-.admin-btn{padding:.4rem 1.1rem; border-radius:2rem; font-size:.85rem; cursor:pointer; border:1px solid var(--line); background:var(--paper); color:var(--ink-soft); transition:all .2s ease;}
+.admin-btn{padding:.4rem 1.1rem; border-radius:2rem; font-size:.85rem; cursor:pointer; border:1px solid var(--line); background:#fff; color:var(--ink-soft); transition:all .2s ease;}
 .admin-btn.primary{background:var(--cinnabar); border-color:var(--cinnabar); color:#fff;}
 .admin-btn:hover{border-color:var(--cinnabar);}
 .admin-btn.primary:hover{background:var(--cinnabar-deep);}
@@ -573,8 +585,8 @@ body.admin-mode .admin-del{display:block;}
 
     <!-- 火属性小涂鸦：一团小火苗 -->
     <svg class="doodle doodle-fire" viewBox="0 0 120 160" aria-hidden="true">
-      <path d="M60 6 C74 42 100 60 100 92 C100 115 82 136 60 136 C38 136 20 115 20 92 C20 65 40 50 47 30 C52 42 61 48 67 47 C59 33 56 18 60 6 Z" fill="none" stroke="#E0653A" stroke-width="2.6" stroke-linejoin="round"/>
-      <path d="M60 92 C75 92 85 104 85 117 C85 128 75 136 60 136 C45 136 35 128 35 117 C35 104 45 92 60 92 Z" fill="#E0653A" opacity=".30"/>
+      <path d="M60 6 C74 42 100 60 100 92 C100 115 82 136 60 136 C38 136 20 115 20 92 C20 65 40 50 47 30 C52 42 61 48 67 47 C59 33 56 18 60 6 Z" fill="none" stroke="#C13827" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M60 92 C75 92 85 104 85 117 C85 128 75 136 60 136 C45 136 35 128 35 117 C35 104 45 92 60 92 Z" fill="#C13827" opacity=".30"/>
     </svg>
 
     <!-- 土属性小涂鸦：梯田 + 太阳 -->
@@ -582,17 +594,17 @@ body.admin-mode .admin-del{display:block;}
       <path d="M4 92 C40 66 84 60 116 74 C148 88 176 78 186 70 L186 130 L4 130 Z" fill="#A97B50" opacity=".28"/>
       <path d="M10 110 C54 92 108 90 146 100 C166 105 180 103 186 101 L186 130 L10 130 Z" fill="#8A6B45" opacity=".24"/>
       <path d="M70 70 h16 M92 78 h16 M114 86 h16" stroke="#7A5C3A" stroke-width="2" stroke-linecap="round" opacity=".55"/>
-      <circle cx="158" cy="30" r="13" fill="none" stroke="#E0653A" stroke-width="2.4"/>
-      <path d="M158 10v-6M158 50v-6M138 30h-6M178 30h-6" stroke="#E0653A" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="158" cy="30" r="13" fill="none" stroke="#C13827" stroke-width="2.4"/>
+      <path d="M158 10v-6M158 50v-6M138 30h-6M178 30h-6" stroke="#C13827" stroke-width="2.4" stroke-linecap="round"/>
     </svg>
 
     <!-- 远山轮廓线（纯装饰） -->
     <svg class="hero-mountains" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,320 C100,250 190,170 330,180 C470,190 560,110 700,90 C850,70 940,160 1090,130 C1200,108 1320,150 1440,120 L1440,320 Z" fill="rgba(203,143,97,0.06)"></path>
-      <path d="M0,320 C130,270 250,210 420,215 C560,220 660,150 820,135 C980,120 1100,180 1260,155 C1340,145 1400,150 1440,145 L1440,320 Z" fill="rgba(203,143,97,0.09)"></path>
-      <path d="M0,320 C170,300 310,250 480,258 C630,265 740,205 900,195 C1060,185 1180,235 1440,205 L1440,320 Z" fill="rgba(203,143,97,0.13)"></path>
-      <path d="M0,320 C210,312 380,285 560,290 C720,294 860,265 1030,272 C1180,278 1320,296 1440,290 L1440,320 Z" fill="rgba(203,143,97,0.17)"></path>
-      <path d="M0,320 C240,316 420,302 620,306 C810,310 950,296 1120,300 C1270,304 1380,312 1440,310 L1440,320 Z" fill="rgba(203,143,97,0.21)"></path>
+      <path d="M0,320 C100,250 190,170 330,180 C470,190 560,110 700,90 C850,70 940,160 1090,130 C1200,108 1320,150 1440,120 L1440,320 Z" fill="rgba(124,139,128,0.08)"></path>
+      <path d="M0,320 C130,270 250,210 420,215 C560,220 660,150 820,135 C980,120 1100,180 1260,155 C1340,145 1400,150 1440,145 L1440,320 Z" fill="rgba(124,139,128,0.12)"></path>
+      <path d="M0,320 C170,300 310,250 480,258 C630,265 740,205 900,195 C1060,185 1180,235 1440,205 L1440,320 Z" fill="rgba(124,139,128,0.17)"></path>
+      <path d="M0,320 C210,312 380,285 560,290 C720,294 860,265 1030,272 C1180,278 1320,296 1440,290 L1440,320 Z" fill="rgba(124,139,128,0.22)"></path>
+      <path d="M0,320 C240,316 420,302 620,306 C810,310 950,296 1120,300 C1270,304 1380,312 1440,310 L1440,320 Z" fill="rgba(124,139,128,0.27)"></path>
     </svg>
 
     <div class="hero-inner">
@@ -606,27 +618,27 @@ body.admin-mode .admin-del{display:block;}
       <div class="hero-hex reveal revealed">
         <span class="hero-orb" aria-hidden="true"></span>
         <svg class="hexagram" viewBox="0 0 320 360" role="img" aria-label="地山谦卦象，山藏于地之下">
-          <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(58,45,34,0.78)" stroke="#6B5544" stroke-width="1.2"></rect>
-          <rect x="29" y="21" width="262" height="318" rx="14" fill="none" stroke="#574434" stroke-width="0.8" stroke-dasharray="2 3"></rect>
+          <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(255,253,246,0.72)" stroke="#C6BAA3" stroke-width="1.2"></rect>
+          <rect x="29" y="21" width="262" height="318" rx="14" fill="none" stroke="#D8CDB8" stroke-width="0.8" stroke-dasharray="2 3"></rect>
           <text x="160" y="50" text-anchor="middle" class="hex-title">地山谦</text>
           <text x="160" y="68" text-anchor="middle" class="hex-sub">艮 下 坤 上 · 山 藏 于 地</text>
           <text text-anchor="middle" class="hex-vert"><tspan x="48" y="142">地</tspan><tspan x="48" y="166">山</tspan><tspan x="48" y="190">谦</tspan></text>
           <!-- 六爻：上六 六五 六四（阴·坤/地）→ 九三（阳·艮/山，朱砂红）→ 六二 初六（阴） -->
-          <rect x="72" y="86" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="156" y="86" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="72" y="113" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="156" y="113" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="72" y="140" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="156" y="140" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="62" y="160" width="196" height="28" rx="14" fill="rgba(224,101,58,0.20)"></rect>
-          <rect x="72" y="167" width="176" height="14" rx="7" fill="#E0653A"></rect>
-          <rect x="72" y="194" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="156" y="194" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="72" y="221" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
-          <rect x="156" y="221" width="76" height="14" rx="7" fill="#CDBCA5"></rect>
+          <rect x="72" y="86" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="86" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="113" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="113" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="140" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="140" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="62" y="160" width="196" height="28" rx="14" fill="rgba(193,56,39,0.12)"></rect>
+          <rect x="72" y="167" width="176" height="14" rx="7" fill="#C13827"></rect>
+          <rect x="72" y="194" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="194" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="72" y="221" width="76" height="14" rx="7" fill="#4A443B"></rect>
+          <rect x="156" y="221" width="76" height="14" rx="7" fill="#4A443B"></rect>
           <text x="244" y="100" text-anchor="middle" class="hex-label">坤</text>
           <text x="244" y="180" text-anchor="middle" class="hex-label">艮</text>
-          <rect x="246" y="294" width="40" height="40" rx="5" fill="#E0653A"></rect>
+          <rect x="246" y="294" width="40" height="40" rx="5" fill="#C13827"></rect>
           <text x="266" y="320" text-anchor="middle" class="hex-seal-text">谦</text>
         </svg>
       </div>
@@ -660,14 +672,14 @@ body.admin-mode .admin-del{display:block;}
           <svg viewBox="0 0 200 200" aria-hidden="true">
             <defs>
               <linearGradient id="avGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#4A3826"></stop>
-                <stop offset="1" stop-color="#241B13"></stop>
+                <stop offset="0" stop-color="#F6EBD9"></stop>
+                <stop offset="1" stop-color="#DCE7DC"></stop>
               </linearGradient>
             </defs>
             <circle cx="100" cy="100" r="99" fill="url(#avGrad)"></circle>
-            <path d="M0,150 C40,120 70,110 100,115 C130,120 155,95 185,80 C195,75 200,74 200,74 L200,200 L0,200 Z" fill="rgba(206,150,98,0.22)"></path>
-            <path d="M0,172 C60,152 110,152 150,160 C175,165 190,168 200,166 L200,200 L0,200 Z" fill="rgba(206,150,98,0.16)"></path>
-            <circle cx="146" cy="146" r="22" fill="#E0653A"></circle>
+            <path d="M0,150 C40,120 70,110 100,115 C130,120 155,95 185,80 C195,75 200,74 200,74 L200,200 L0,200 Z" fill="rgba(124,139,128,0.28)"></path>
+            <path d="M0,172 C60,152 110,152 150,160 C175,165 190,168 200,166 L200,200 L0,200 Z" fill="rgba(124,139,128,0.20)"></path>
+            <circle cx="146" cy="146" r="22" fill="#C13827"></circle>
             <text x="146" y="154" text-anchor="middle" font-size="22" fill="#fff" font-family="serif">谦</text>
           </svg>
         </div>
@@ -792,7 +804,7 @@ body.admin-mode .admin-del{display:block;}
   <!-- 页脚小涂鸦：暖丘 + 小太阳（火/土主题） -->
   <svg class="doodle doodle-footer" viewBox="0 0 140 70" aria-hidden="true">
     <path d="M6 60 C36 40 70 36 96 48 C118 58 132 56 136 54 L136 70 L6 70 Z" fill="#A97B50" opacity=".30"/>
-    <circle cx="112" cy="20" r="9" fill="none" stroke="#E0653A" stroke-width="2"/>
+    <circle cx="112" cy="20" r="9" fill="none" stroke="#C13827" stroke-width="2"/>
   </svg>
   <div class="footer-seal">谦</div>
   <p class="footer-name">wcmheart · 地山谦</p>

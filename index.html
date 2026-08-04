@@ -374,7 +374,7 @@ body.admin-mode .card details summary::after{display:none;}
 </style>
 </head>
 
-<body class="admin-mode">
+<body>
 
 <!-- ═══════════════════════════════════
      顶部导航栏
@@ -382,7 +382,7 @@ body.admin-mode .card details summary::after{display:none;}
 <header class="nav" id="top">
   <a class="nav-logo" href="#top">
     <span class="nav-seal">谦</span>
-    <span data-key="siteName" contenteditable="true">wcmheart</span>
+    <span data-key="siteName">wcmheart</span>
   </a>
   <nav class="nav-links">
     <a href="#about">关于</a>
@@ -428,7 +428,7 @@ body.admin-mode .card details summary::after{display:none;}
 
     <div class="hero-inner">
 
-      <p class="hero-eyebrow reveal revealed" data-key="heroEyebrow" contenteditable="true">明天一定早睡</p>
+      <p class="hero-eyebrow reveal revealed" data-key="heroEyebrow">明天一定早睡</p>
 
       <!-- ▼▼▼ 地山谦卦象 SVG ▼▼▼
            卦象：上坤下艮，即「地在上、山在下」。
@@ -463,8 +463,8 @@ body.admin-mode .card details summary::after{display:none;}
       </div>
 
       <!-- ★ 个人宣言：编辑模式里点这里直接改，或搜 heroTitle -->
-      <h1 class="hero-title reveal revealed" data-key="heroTitle" contenteditable="true">山藏于地，谦而不卑。</h1>
-      <p class="hero-sub reveal revealed" data-key="heroSub" contenteditable="true">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
+      <h1 class="hero-title reveal revealed" data-key="heroTitle">山藏于地，谦而不卑。</h1>
+      <p class="hero-sub reveal revealed" data-key="heroSub">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
 
       <a class="hero-cta reveal revealed" href="#about">认识我</a>
     </div>
@@ -504,15 +504,15 @@ body.admin-mode .card details summary::after{display:none;}
         </div>
 
         <div class="about-text reveal revealed">
-          <h3 data-key="aboutName" contenteditable="true">你好，我是 小明。</h3>
-          <p data-key="aboutP1" contenteditable="true">山藏于地，谦而不卑。我热爱自然、文字与一切慢下来才能看见的东西。白天在人群里穿行，夜晚在灯下读书、写字、发呆。</p>
-          <p data-key="aboutP2" contenteditable="true">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。也记录-丑戌未-三刑每天夜晚的思虑。</p>
+          <h3 data-key="aboutName">你好，我是 小明。</h3>
+          <p data-key="aboutP1">山藏于地，谦而不卑。我热爱自然、文字与一切慢下来才能看见的东西。白天在人群里穿行，夜晚在灯下读书、写字、发呆。</p>
+          <p data-key="aboutP2">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。也记录-丑戌未-三刑每天夜晚的思虑。</p>
           <div class="tags">
             <!-- 标签想增删：编辑模式里点单个标签可改文字；要加新标签就复制一行 <span>…</span> -->
             <span>阅读</span><span>写作</span><span>远山</span><span>茶</span><span>慢生活</span>
           </div>
           <blockquote class="about-note">
-            <p data-key="aboutNote" contenteditable="true">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p>
+            <p data-key="aboutNote">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p>
           </blockquote>
         </div>
       </div>
@@ -538,7 +538,7 @@ body.admin-mode .card details summary::after{display:none;}
       <div class="tag-filter" id="tagFilter"></div>
       <!-- 文章卡片由脚本根据 site-data 生成 -->
       <div id="articleList" class="card-grid" aria-label="文章列表"></div>
-      <button id="addArticle" class="admin-add">＋ 新增一篇</button>
+      <button id="addArticle" class="admin-add hidden">＋ 新增一篇</button>
 
     </div>
   </section>
@@ -558,7 +558,7 @@ body.admin-mode .card details summary::after{display:none;}
 
       <!-- 碎片列表由脚本根据 site-data 生成 -->
       <ol id="fragList" class="frag-list"></ol>
-      <button id="addFragment" class="admin-add">＋ 新增一条</button>
+      <button id="addFragment" class="admin-add hidden">＋ 新增一条</button>
 
     </div>
   </section>
@@ -577,15 +577,15 @@ body.admin-mode .card details summary::after{display:none;}
       </div>
 
       <div class="contact-card reveal revealed">
-        <h3 data-key="contactTitle" contenteditable="true">愿你收到一封来自山间的信</h3>
-        <p data-key="contactText" contenteditable="true">无论是想聊聊文章，还是讲讲你的山与海，都让我很高兴。</p>
+        <h3 data-key="contactTitle">愿你收到一封来自山间的信</h3>
+        <p data-key="contactText">无论是想聊聊文章，还是讲讲你的山与海，都让我很高兴。</p>
         <div class="contact-links">
           <!-- 邮箱：编辑模式里点邮箱文字直接改，改了链接也会自动更新 -->
           <a class="contact-item" href="mailto:1654392950@qq.com">
             <span class="c-icon">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
             </span>
-            <span class="c-label" data-key="contactEmail" contenteditable="true">1654392950@qq.com</span>
+            <span class="c-label" data-key="contactEmail">1654392950@qq.com</span>
           </a>
           <!-- 个人网站：wcmheart 的正式地址 -->
           <a class="contact-item" href="https://Dreamker03king.github.io/wcmheart/" target="_blank" rel="noopener">
@@ -636,7 +636,7 @@ body.admin-mode .card details summary::after{display:none;}
      ═══════════════════════════════════ -->
 <div id="adminUI">
   <!-- 左下角齿轮：点它输入密码进入编辑模式（访客也可以点，但没密码进不来） -->
-  <button id="adminGear" class="admin-gear hidden" title="站长入口" aria-label="站长入口">⚙</button>
+  <button id="adminGear" class="admin-gear" title="站长入口" aria-label="站长入口">⚙</button>
 
   <!-- 密码弹窗 -->
   <div id="adminModal" class="admin-modal hidden" role="dialog" aria-label="站长登录">
@@ -651,7 +651,7 @@ body.admin-mode .card details summary::after{display:none;}
   </div>
 
   <!-- 编辑模式底栏 -->
-  <div id="adminBar" class="admin-bar">
+  <div id="adminBar" class="admin-bar hidden">
     <span class="status" id="adminStatus">已自动保存到本机 ✓</span>
     <button class="admin-btn primary" id="btnExport">⬇ 导出新文件</button>
     <button class="admin-btn" id="btnExit">退出</button>
@@ -945,6 +945,16 @@ function exportFile(){
     var fl = document.getElementById('fragList');
     al.innerHTML = ''; fl.innerHTML = '';
 
+    /* 重要：导出前先剥离“编辑模式”状态，避免外人打开也进入编辑模式 */
+    var wasAdmin = document.body.classList.contains('admin-mode');
+    if (wasAdmin) document.body.classList.remove('admin-mode');
+    var ceEls = document.querySelectorAll('[contenteditable]');
+    for (var cei = 0; cei < ceEls.length; cei++) ceEls[cei].removeAttribute('contenteditable');
+    /* 导出时把管理界面恢复成“游客不可见”状态 */
+    document.getElementById('adminGear').classList.remove('hidden');
+    document.getElementById('adminBar').classList.add('hidden');
+    document.getElementById('addArticle').classList.add('hidden');
+    document.getElementById('addFragment').classList.add('hidden');
     var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     html = html.replace(orig, newJSON);             // 用新数据替换内置数据
 
@@ -957,6 +967,14 @@ function exportFile(){
 
     renderAll();                                    // 恢复界面上的卡片
 
+    if (wasAdmin) {
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminGear').classList.add('hidden');
+      document.getElementById('adminBar').classList.remove('hidden');
+      document.getElementById('addArticle').classList.remove('hidden');
+      document.getElementById('addFragment').classList.remove('hidden');
+    }
+    makeEditable();
     status('已生成新文件：用下载的 index.html 覆盖本地并上传发布');
   } catch(err){
     alert('导出失败：' + err.message);

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wcmheart · 地山谦 — 记录故事与想法的个人主页</title>
+<meta name="description" content="山藏于地，谦而不卑。这里记录 wcmheart 的故事、想法与随笔。">
+<!-- 探测 JS 是否可用：只有脚本正常运行才启用渐显动画，防止页面空白 -->
+<script>document.documentElement.classList.add('js');</script>
+
+<!--
+  ════════════════════════════════════════════════════════════════════
+   ◆◆  使用说明（给未来的你）  ◆◆
+   ════════════════════════════════════════════════════════════════════
+   这是「单文件个人网站」，双击就能在浏览器打开，不用装软件、不用联网。
+
+   ▍两种模式
+   · 访客模式（默认）：别人打开网站，只能看，改不了。
+   · 站长编辑模式（只有你）：点左下角的「⚙」齿轮，输入密码进入，
+     进入后可以直接在页面上点文字修改，也能“＋新增”或“✕删除”文章/碎片。
+
+   ▍编辑流程
+   1. 点左下角 ⚙，输入密码（默认 qian2026，改法见文件底部脚本）
+   2. 直接点任意文字，就地修改；改完会自动保存到本机（刷新不丢）
+   3. 点底栏「⬇ 导出新文件」，浏览器会下载一个全新的 index.html
+   4. 把这个新文件 ①覆盖本地的旧文件，②上传到你的网站空间发布
+   别人打开你发布的那份，看到的就是最新内容。
+
+   ▍本站内容都在哪里
+   · 文章、碎片：存在页面底部的 <script id="site-data"> 里（也能直接改）
+   · 首页宣言、自我介绍、联系方式：直接搜下面的 data-key 关键词
+       siteName 站点名 / heroTitle 个人宣言 / aboutName 自我介绍 /
+       contactEmail 邮箱
+   · 想换字体：系统装「思源宋体 / 思源黑体」，会自动生效
+   · 网站链接统一用 wcmheart.com 占位，部署时改成你自己的域名
+  ════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+/* ═══════════════════════════════════════════════════
+   0. 设计变量（改颜色就改这里）
+   ═══════════════════════════════════════════════════ */
+:root{
+  /* 背景三色：米白 → 浅杏 → 淡青绿 */
+  --bg-1:#FBF7EF;
+  --bg-2:#F6EBD9;
+  --bg-3:#E9EFE6;
+
+  /* 文字：暖墨色系 */
+  --ink:#403A31;
+  --ink-soft:#6B6154;
+  --ink-faint:#9C8F7D;
+
+  /* 线条与纸面 */
+  --line:#D8CDB8;
+  --line-soft:#E9E1D2;
+  --paper:#FFFDF8;
+
+  /* 点缀：朱砂红 + 暖金 */
+  --cinnabar:#C13827;
+  --cinnabar-deep:#A52D20;
+  --gold:#B99A5F;
+
+  /* 远山颜色 */
+  --mount:#7C8B80;
+
+  /* 字体：中文用思源宋体/黑体/楷体，英文用衬线 */
+  --font-serif:"Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","Songti SC","STSong","SimSun","宋体",serif;
+  --font-sans :"Source Han Sans SC","Source Han Sans CN","Noto Sans CJK SC","PingFang SC","Microsoft YaHei","微软雅黑",sans-serif;
+  --font-kai  :"Kaiti SC","STKaiti","KaiTi","楷体",serif;
+  --font-en   :Georgia,"Palatino Linotype","Times New Roman",serif;
+}
+
+/* ═══════════════════════════════════════════════════
+   1. 基础样式
+   ═══════════════════════════════════════════════════ */
+*{box-sizing:border-box;}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:84px;
+}
+
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:1rem;
+  line-height:1.85;
+  overflow-x:hidden;
+  background:linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 32%, #EFF3EA 66%, var(--bg-3) 100%);
+  background-attachment:fixed;
+}
+
+/* 整页叠加一层极淡的“宣纸颗粒”（纯装饰，可删） */
+body::after{
+  content:""; position:fixed; inset:0; z-index:9990; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.38 0 0 0 0 0.32 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.6;
+}
+
+img,svg{display:block; max-width:100%;}
+a{color:var(--cinnabar);}
+h1,h2,h3{font-family:var(--font-serif); font-weight:600; line-height:1.35;}
+
+/* 所有可在编辑模式里修改的文字，保留换行 */
+[data-key],[data-edit]{ white-space:pre-line; }
+
+/* ═══════════════════════════════════════════════════
+   2. 顶部导航栏
+   ═══════════════════════════════════════════════════ */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.8rem clamp(1rem,4vw,2.5rem);
+  background:rgba(251,247,239,.85);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(180,160,130,.18);
+}
+.nav-logo{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--ink); font-weight:600; letter-spacing:.08em;}
+.nav-seal{
+  width:2rem; height:2rem; display:grid; place-items:center;
+  background:var(--cinnabar); color:#fff; border-radius:.38rem;
+  font-family:var(--font-serif); font-size:1.05rem;
+  box-shadow:0 2px 8px rgba(193,56,39,.35);
+}
+.nav-links{display:flex; gap:clamp(.9rem,2.5vw,1.6rem); align-items:center;}
+.nav-links a{color:var(--ink-soft); text-decoration:none; font-size:.95rem; transition:color .2s ease;}
+.nav-links a:hover{color:var(--cinnabar);}
+
+/* ═══════════════════════════════════════════════════
+   3. 首屏 Hero
+   ═══════════════════════════════════════════════════ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding:7rem 1.5rem 4rem;
+  overflow:hidden;
+}
+.hero-mountains{
+  position:absolute; left:0; bottom:0; width:100%; height:38vh;
+  pointer-events:none;
+}
+.hero-inner{position:relative; z-index:2; display:flex; flex-direction:column; align-items:center;}
+.hero-eyebrow{
+  font-family:var(--font-en); font-size:.8rem; letter-spacing:.4em;
+  color:var(--ink-faint); margin:0 0 1.2rem; text-indent:.4em;
+}
+.hero-hex{position:relative; margin:0 0 1.6rem;}
+.hero-orb{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(72vw,330px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle, rgba(193,56,39,.13) 0%, rgba(193,56,39,0) 68%);
+}
+.hexagram{position:relative; width:min(68vw,300px); height:auto;}
+.hero-title{
+  font-family:var(--font-kai);
+  font-size:clamp(1.9rem,5.5vw,3.1rem);
+  letter-spacing:.06em;
+  margin:0 0 1rem;
+}
+.hero-sub{color:var(--ink-soft); font-size:clamp(.95rem,2.5vw,1.08rem); margin:0 0 2rem;}
+.hero-cta{
+  display:inline-block; text-decoration:none;
+  color:var(--cinnabar); border:1px solid rgba(193,56,39,.45);
+  padding:.55rem 1.9rem; border-radius:2rem;
+  font-size:.95rem; letter-spacing:.15em; text-indent:.15em;
+  transition:all .25s ease;
+}
+.hero-cta:hover{background:var(--cinnabar); color:#fff; box-shadow:0 6px 18px rgba(193,56,39,.3);}
+.hero-scroll{
+  position:absolute; bottom:1.8rem; left:50%; transform:translateX(-50%);
+  width:1px; height:58px;
+  background:linear-gradient(to bottom, rgba(201,191,168,0) 0%, rgba(201,191,168,.9) 60%);
+}
+.hero-scroll::after{
+  content:""; position:absolute; left:-2.5px; top:0;
+  width:6px; height:6px; border-radius:50%; background:var(--cinnabar);
+  animation:scrollDot 2.4s ease-in-out infinite;
+}
+@keyframes scrollDot{
+  0%   {top:0; opacity:0;}
+  35%  {opacity:1;}
+  100% {top:50px; opacity:0;}
+}
+
+/* ═══════════════════════════════════════════════════
+   4. 通用区块与标题装饰
+   ═══════════════════════════════════════════════════ */
+.section{position:relative; padding:clamp(4rem,8vw,6.5rem) clamp(1.25rem,5vw,2.5rem);}
+.section-inner{max-width:1040px; margin:0 auto;}
+.sec-head{text-align:center; margin-bottom:clamp(2.2rem,5vw,3.5rem);}
+.sec-eyebrow{
+  font-family:var(--font-en); font-size:.75rem; letter-spacing:.35em;
+  color:var(--gold); margin:0 0 .5rem; text-indent:.35em;
+}
+.sec-title{font-size:clamp(1.6rem,4.5vw,2.2rem); letter-spacing:.1em; margin:0 0 .9rem;}
+.sec-rule{display:flex; align-items:center; justify-content:center; gap:.7rem;}
+.sec-rule .rule-line{height:1px; width:min(90px,18vw); background:linear-gradient(to right, transparent, var(--line));}
+.sec-rule .rule-line:last-child{background:linear-gradient(to left, transparent, var(--line));}
+.sec-rule .rule-diamond{color:var(--cinnabar); font-size:.55rem; transform:rotate(45deg); display:inline-block;}
+.sec-sub{max-width:560px; margin:.9rem auto 0; color:var(--ink-soft); font-size:.95rem;}
+
+#essays{background:linear-gradient(180deg, transparent 0%, rgba(250,244,231,.72) 10%, rgba(250,244,231,.72) 90%, transparent 100%);}
+#fragments{background:linear-gradient(180deg, transparent 0%, rgba(236,242,236,.66) 10%, rgba(236,242,236,.66) 90%, transparent 100%);}
+
+/* ═══════════════════════════════════════════════════
+   5. 关于我
+   ═══════════════════════════════════════════════════ */
+.about-grid{
+  display:grid;
+  grid-template-columns:minmax(220px,300px) 1fr;
+  gap:clamp(2rem,6vw,4rem);
+  align-items:start;
+}
+/* 左侧圆形“头像”（默认是远山小画；换照片的方法见 HTML 注释） */
+.avatar{border-radius:50%; overflow:hidden; box-shadow:0 10px 30px rgba(150,120,80,.14);}
+.avatar svg{width:100%; height:auto;}
+.about-text h3{font-size:1.4rem; margin:0 0 .4rem; letter-spacing:.05em;}
+.about-text p{color:var(--ink-soft); margin:.6rem 0;}
+.placeholder-note{
+  display:inline-block; font-size:.8rem; color:var(--cinnabar);
+  background:rgba(193,56,39,.07); border:1px dashed rgba(193,56,39,.4);
+  border-radius:.5rem; padding:.15rem .7rem; margin:0 0 .6rem;
+}
+.tags{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.1rem;}
+.tags span{
+  font-size:.8rem; color:var(--ink-soft);
+  border:1px solid var(--line); background:var(--paper);
+  padding:.12rem .8rem; border-radius:2rem;
+}
+.about-note{
+  margin:1.6rem 0 0; padding:.8rem 1.1rem;
+  border-left:3px solid var(--cinnabar);
+  background:rgba(255,253,248,.75); border-radius:0 .6rem .6rem 0;
+  color:var(--ink-soft); font-size:.92rem;
+}
+.about-note p{margin:0;}
+
+/* ═══════════════════════════════════════════════════
+   6. 随笔 / 故事（卡片区）
+   ═══════════════════════════════════════════════════ */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:1.5rem;
+}
+.card{
+  position:relative;                 /* 供“✕删除”按钮定位 */
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:1rem;
+  box-shadow:0 2px 10px rgba(160,130,90,.06);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--gold);
+  box-shadow:0 14px 30px rgba(160,130,90,.14);
+}
+.card details summary{
+  position:relative;
+  padding:1.4rem 1.4rem 1.2rem;
+  cursor:pointer; list-style:none;
+}
+.card details summary::-webkit-details-marker{display:none;}
+.card details summary h3{font-size:1.12rem; margin:.35rem 0 .15rem; padding-right:1.6rem; letter-spacing:.03em;}
+.card-tag{
+  display:inline-block; font-size:.72rem; letter-spacing:.14em;
+  color:var(--cinnabar); border:1px solid rgba(193,56,39,.35);
+  border-radius:2rem; padding:.05rem .65rem;
+}
+.card-meta{font-family:var(--font-en); font-size:.8rem; color:var(--ink-faint); letter-spacing:.04em; margin:.4rem 0 0;}
+.card-teaser{color:var(--ink-soft); font-size:.92rem; margin:.55rem 0 0;}
+.card details summary::after{
+  content:"＋"; position:absolute; top:1.3rem; right:1.2rem;
+  color:var(--cinnabar); font-family:var(--font-en);
+  transition:transform .3s ease;
+}
+.card details[open] summary::after{content:"－";}
+.card-full{
+  border-top:1px dashed var(--line);
+  margin:0 1.4rem 1.4rem; padding-top:.9rem;
+  color:var(--ink-soft); font-size:.94rem;
+}
+.card-full p{margin:0 0 .5rem;}
+
+/* ═══════════════════════════════════════════════════
+   7. 想法 / 碎片（竖向时间线）
+   ═══════════════════════════════════════════════════ */
+.frag-list{list-style:none; max-width:640px; margin:0 auto; padding-left:1.1rem; position:relative;}
+.frag-list::before{
+  content:""; position:absolute; left:0; top:10px; bottom:10px; width:1px;
+  background:linear-gradient(to bottom, rgba(193,56,39,.4), rgba(194,161,95,.25));
+}
+.frag{position:relative; padding:.5rem 2.2rem .5rem 1.7rem;}  /* 右侧留出删除按钮位置 */
+.frag::before{
+  content:""; position:absolute; left:-4.5px; top:1.05rem;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--cinnabar);
+  box-shadow:0 0 0 3px rgba(193,56,39,.14);
+}
+.frag time{font-family:var(--font-en); font-size:.78rem; letter-spacing:.08em; color:var(--ink-faint);}
+.frag p{font-family:var(--font-kai); font-size:clamp(1.05rem,3vw,1.18rem); margin:.25rem 0 .2rem;}
+.frag-tag{
+  font-size:.7rem; color:var(--gold);
+  border:1px solid rgba(194,161,95,.45); border-radius:2rem;
+  padding:.05rem .6rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   8. 联系我
+   ═══════════════════════════════════════════════════ */
+.contact-card{
+  max-width:640px; margin:0 auto;
+  background:rgba(255,253,248,.8);
+  border:1px solid var(--line); border-radius:1.2rem;
+  padding:clamp(2rem,5vw,3rem) clamp(1.4rem,4vw,2.6rem);
+  text-align:center;
+  box-shadow:0 12px 34px rgba(150,120,80,.1);
+}
+.contact-card h3{font-size:1.5rem; margin:0 0 .6rem; letter-spacing:.08em;}
+.contact-card p{color:var(--ink-soft); margin:0;}
+.contact-links{display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2rem;}
+.contact-item{
+  display:flex; flex-direction:column; align-items:center; gap:.55rem;
+  padding:1.1rem 1.5rem;
+  border:1px solid var(--line); border-radius:1rem;
+  background:var(--paper); color:var(--ink-soft);
+  text-decoration:none; font-size:.88rem;
+  transition:all .25s ease;
+}
+.contact-item:hover{
+  color:var(--cinnabar); border-color:rgba(193,56,39,.4);
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(150,120,80,.12);
+}
+.c-icon{
+  display:grid; place-items:center;
+  width:2.5rem; height:2.5rem; border-radius:50%;
+  background:#F6EBD9; color:var(--cinnabar);
+}
+
+/* ═══════════════════════════════════════════════════
+   9. 页脚 + 回到顶部
+   ═══════════════════════════════════════════════════ */
+.footer{padding:4.5rem 1.5rem 5.5rem; text-align:center; border-top:1px solid var(--line-soft);}
+.footer-seal{
+  width:3rem; height:3rem; margin:0 auto 1.1rem;
+  display:grid; place-items:center;
+  background:var(--cinnabar); color:#fff; border-radius:.5rem;
+  font-family:var(--font-serif); font-size:1.4rem;
+  box-shadow:0 5px 16px rgba(193,56,39,.35);
+}
+.footer-name{font-family:var(--font-serif); letter-spacing:.18em; margin:0 0 .3rem; text-indent:.18em;}
+.footer-tag{font-family:var(--font-kai); color:var(--ink-soft); margin:0 0 .6rem;}
+.footer-copy{color:var(--ink-faint); font-size:.84rem; margin:0;}
+
+.to-top{
+  position:fixed; right:1.4rem; bottom:1.4rem; z-index:90;
+  width:2.6rem; height:2.6rem; border-radius:50%;
+  display:grid; place-items:center;
+  background:rgba(255,253,248,.9); border:1px solid var(--line);
+  color:var(--ink-soft); text-decoration:none;
+  opacity:0; transform:translateY(8px); pointer-events:none;
+  transition:opacity .3s ease, transform .3s ease;
+  box-shadow:0 4px 12px rgba(150,120,80,.15);
+}
+.to-top.show{opacity:1; transform:none; pointer-events:auto;}
+.to-top:hover{color:var(--cinnabar);}
+
+/* ═══════════════════════════════════════════════════
+   10. 站长编辑模式（游客永远不会进入，除非有密码）
+   ═══════════════════════════════════════════════════ */
+.hidden{display:none !important;}
+
+/* 左下角的齿轮入口 */
+.admin-gear{
+  position:fixed; left:1.1rem; bottom:1.1rem; z-index:200;
+  width:2.3rem; height:2.3rem; border-radius:50%;
+  border:1px solid var(--line); background:rgba(255,253,248,.85);
+  color:var(--ink-faint); font-size:1rem; cursor:pointer;
+  opacity:.5; transition:opacity .2s ease, transform .2s ease;
+}
+.admin-gear:hover{opacity:1; color:var(--cinnabar); transform:rotate(60deg);}
+
+/* 密码弹窗 */
+.admin-modal{position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; background:rgba(64,58,49,.4); backdrop-filter:blur(2px);}
+.admin-modal-box{background:var(--paper); border:1px solid var(--line); border-radius:1rem; padding:1.8rem; width:min(90vw,320px); text-align:center; box-shadow:0 16px 40px rgba(80,60,40,.25);}
+.admin-modal-box p{margin:0 0 .9rem; color:var(--ink-soft); font-size:.9rem;}
+.admin-modal-box input{width:100%; padding:.5rem .7rem; border:1px solid var(--line); border-radius:.5rem; font-size:1rem; text-align:center; margin-bottom:.8rem;}
+.admin-modal-box input:focus{outline:none; border-color:var(--cinnabar);}
+.admin-modal-actions{display:flex; gap:.6rem; justify-content:center;}
+
+/* 编辑模式底栏 */
+.admin-bar{
+  position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:200;
+  display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
+  padding:.5rem .9rem; max-width:94vw;
+  background:rgba(255,253,248,.95); border:1px solid var(--line); border-radius:2rem;
+  box-shadow:0 8px 24px rgba(80,60,40,.15);
+  font-size:.82rem; color:var(--ink-soft);
+}
+.admin-bar .status{color:var(--cinnabar);}
+
+.admin-btn{padding:.4rem 1.1rem; border-radius:2rem; font-size:.85rem; cursor:pointer; border:1px solid var(--line); background:#fff; color:var(--ink-soft); transition:all .2s ease;}
+.admin-btn.primary{background:var(--cinnabar); border-color:var(--cinnabar); color:#fff;}
+.admin-btn:hover{border-color:var(--cinnabar);}
+.admin-btn.primary:hover{background:var(--cinnabar-deep);}
+
+/* “新增”按钮（编辑模式才出现） */
+.admin-add{
+  display:block; margin:2rem auto 0;
+  padding:.5rem 1.5rem; border-radius:2rem;
+  border:1px dashed var(--cinnabar); background:transparent;
+  color:var(--cinnabar); font-size:.9rem; cursor:pointer;
+}
+.admin-add:hover{background:rgba(193,56,39,.08);}
+
+/* 编辑模式下：可编辑文字加虚线框提示；隐藏齿轮 */
+body.admin-mode [data-key], body.admin-mode [data-edit]{
+  outline:1px dashed rgba(193,56,39,.45); outline-offset:3px;
+  border-radius:2px; cursor:text; transition:outline-color .2s ease, background .2s ease;
+}
+body.admin-mode [data-key]:hover, body.admin-mode [data-edit]:hover{outline-color:var(--cinnabar); background:rgba(193,56,39,.04);}
+body.admin-mode [data-key]:focus, body.admin-mode [data-edit]:focus{outline-style:solid; background:rgba(193,56,39,.06);}
+body.admin-mode #adminGear{opacity:0; pointer-events:none;}
+body.admin-mode .card details summary::after{display:none;}  /* 编辑态隐藏展开按钮，避免挡住“✕” */
+
+/* “✕删除”按钮（编辑模式才出现） */
+.admin-del{
+  position:absolute; top:.75rem; right:.75rem; z-index:5;
+  width:1.4rem; height:1.4rem; border-radius:50%;
+  border:1px solid rgba(193,56,39,.4); background:#fff;
+  color:var(--cinnabar); font-size:.7rem; line-height:1; cursor:pointer;
+  display:none;
+}
+body.admin-mode .admin-del{display:block;}
+.frag .admin-del{top:.4rem; right:.2rem;}
+
+/* ═══════════════════════════════════════════════════
+   11. 滚动渐显动画
+   ═══════════════════════════════════════════════════ */
+.js .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+.js .reveal.revealed{opacity:1; transform:none;}
+.card-grid .card:nth-child(2){transition-delay:.08s;}
+.card-grid .card:nth-child(3){transition-delay:.16s;}
+@media (prefers-reduced-motion: reduce){
+  .js .reveal{opacity:1; transform:none; transition:none;}
+  html{scroll-behavior:auto;}
+}
+
+/* ═══════════════════════════════════════════════════
+   12. 手机端适配
+   ═══════════════════════════════════════════════════ */
+@media (max-width:720px){
+  .about-grid{grid-template-columns:1fr; justify-items:center;}
+  .avatar{width:min(62vw,230px);}
+  .about-text{text-align:center;}
+  .tags{justify-content:center;}
+  .about-note{text-align:left;}
+  .nav-links{gap:.9rem;}
+  .nav-links a{font-size:.88rem;}
+  .contact-links .contact-item{flex:1 1 40%;}
+  .admin-bar{font-size:.76rem;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════
+     顶部导航栏
+     ═══════════════════════════════════ -->
+<header class="nav" id="top">
+  <a class="nav-logo" href="#top">
+    <span class="nav-seal">谦</span>
+    <span data-key="siteName">wcmheart</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#about">关于</a>
+    <a href="#essays">随笔</a>
+    <a href="#fragments">碎片</a>
+    <a href="#contact">联系</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ═══════════════════════════════════
+       首屏 Hero：宣言 + 卦象 + 远山
+       ═══════════════════════════════════ -->
+  <section class="hero">
+
+    <!-- 远山轮廓线（纯装饰） -->
+    <svg class="hero-mountains" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,320 C120,240 210,180 330,200 C440,214 520,150 660,120 C800,90 900,170 1050,140 C1160,118 1300,160 1440,130 L1440,320 Z" fill="rgba(124,139,128,0.10)"/>
+      <path d="M0,320 C180,290 300,240 460,250 C600,258 720,210 880,205 C1020,200 1180,250 1440,220 L1440,320 Z" fill="rgba(124,139,128,0.15)"/>
+      <path d="M0,320 C240,310 400,290 560,295 C760,302 900,282 1080,290 C1220,296 1340,306 1440,300 L1440,320 Z" fill="rgba(124,139,128,0.20)"/>
+    </svg>
+
+    <div class="hero-inner">
+
+      <p class="hero-eyebrow reveal" data-key="heroEyebrow">WCMHEART · 地山谦 QIÁN</p>
+
+      <!-- ▼▼▼ 地山谦卦象 SVG ▼▼▼
+           卦象：上坤下艮，即「地在上、山在下」。
+           唯一阳爻「九三」（大山的骨血）埋在阴爻大地之下——
+           山藏于地，谦也。我把它点成朱砂红，象征谦逊外表下内蕴的力量。 -->
+      <div class="hero-hex reveal">
+        <span class="hero-orb" aria-hidden="true"></span>
+        <svg class="hexagram" viewBox="0 0 320 360" role="img" aria-label="地山谦卦象，山藏于地之下">
+          <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(255,253,246,0.72)" stroke="#C6BAA3" stroke-width="1.2"/>
+          <rect x="29" y="21" width="262" height="318" rx="14" fill="none" stroke="#D8CDB8" stroke-width="0.8" stroke-dasharray="2 3"/>
+          <text x="160" y="50" text-anchor="middle" class="hex-title">地山谦</text>
+          <text x="160" y="68" text-anchor="middle" class="hex-sub">艮 下 坤 上 · 山 藏 于 地</text>
+          <text text-anchor="middle" class="hex-vert"><tspan x="48" y="142">地</tspan><tspan x="48" y="166">山</tspan><tspan x="48" y="190">谦</tspan></text>
+          <!-- 六爻：上六 六五 六四（阴·坤/地）→ 九三（阳·艮/山，朱砂红）→ 六二 初六（阴） -->
+          <rect x="72" y="86"  width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="156" y="86" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="72" y="113" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="156" y="113" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="72" y="140" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="156" y="140" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="62" y="160" width="196" height="28" rx="14" fill="rgba(193,56,39,0.12)"/>
+          <rect x="72" y="167" width="176" height="14" rx="7" fill="#C13827"/>
+          <rect x="72" y="194" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="156" y="194" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="72" y="221" width="76" height="14" rx="7" fill="#4A443B"/>
+          <rect x="156" y="221" width="76" height="14" rx="7" fill="#4A443B"/>
+          <text x="244" y="100" text-anchor="middle" class="hex-label">坤</text>
+          <text x="244" y="180" text-anchor="middle" class="hex-label">艮</text>
+          <rect x="246" y="294" width="40" height="40" rx="5" fill="#C13827"/>
+          <text x="266" y="320" text-anchor="middle" class="hex-seal-text">谦</text>
+        </svg>
+      </div>
+
+      <!-- ★ 个人宣言：编辑模式里点这里直接改，或搜 heroTitle -->
+      <h1 class="hero-title reveal" data-key="heroTitle">山藏于地，谦而不卑。</h1>
+      <p class="hero-sub reveal" data-key="heroSub">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
+
+      <a class="hero-cta reveal" href="#about">认识我</a>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       关于我
+       ═══════════════════════════════════ -->
+  <section class="section" id="about">
+    <div class="section-inner">
+
+      <div class="sec-head reveal">
+        <p class="sec-eyebrow">ABOUT ME</p>
+        <h2 class="sec-title">关于我</h2>
+        <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+        <p class="sec-sub">一个正在慢慢生长的人。</p>
+      </div>
+
+      <div class="about-grid">
+        <!-- 左侧头像（默认是一幅远山+谦印小画；换照片：把 <svg>…</svg> 换成 <img src="你的照片.jpg" style="width:100%;border-radius:50%;">） -->
+        <div class="avatar reveal">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <linearGradient id="avGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F6EBD9"/>
+                <stop offset="1" stop-color="#DCE7DC"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="99" fill="url(#avGrad)"/>
+            <path d="M0,150 C40,120 70,110 100,115 C130,120 155,95 185,80 C195,75 200,74 200,74 L200,200 L0,200 Z" fill="rgba(124,139,128,0.28)"/>
+            <path d="M0,172 C60,152 110,152 150,160 C175,165 190,168 200,166 L200,200 L0,200 Z" fill="rgba(124,139,128,0.20)"/>
+            <circle cx="146" cy="146" r="22" fill="#C13827"/>
+            <text x="146" y="154" text-anchor="middle" font-size="22" fill="#fff" font-family="serif">谦</text>
+          </svg>
+        </div>
+
+        <div class="about-text reveal">
+          <h3 data-key="aboutName">你好，我是 wcmheart</h3>
+          <span class="placeholder-note">✎ 以下是占位文字，编辑模式里点它们直接改</span>
+          <p data-key="aboutP1">山藏于地，谦而不卑。我热爱自然、文字与一切慢下来才能看见的东西。白天在人群里穿行，夜晚在灯下读书、写字、发呆。（占位：写下你的职业、爱好、正在做的事……）</p>
+          <p data-key="aboutP2">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。</p>
+          <div class="tags">
+            <!-- 标签想增删：编辑模式里点单个标签可改文字；要加新标签就复制一行 <span>…</span> -->
+            <span>阅读</span><span>写作</span><span>远山</span><span>茶</span><span>慢生活</span>
+          </div>
+          <blockquote class="about-note">
+            <p data-key="aboutNote">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p>
+          </blockquote>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       随笔 / 故事（文章列表，内容在 site-data 里）
+       ═══════════════════════════════════ -->
+  <section class="section" id="essays">
+    <div class="section-inner">
+
+      <div class="sec-head reveal">
+        <p class="sec-eyebrow">STORIES &amp; ESSAYS</p>
+        <h2 class="sec-title">随笔 · 故事</h2>
+        <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+        <p class="sec-sub">把走过的路、读过的书，一点一点写下来。</p>
+      </div>
+
+      <!-- 文章卡片由脚本根据 site-data 生成，编辑模式里可增删改 -->
+      <div id="articleList" class="card-grid" aria-label="文章列表"></div>
+      <button id="addArticle" class="admin-add hidden">＋ 新增一篇</button>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       想法 / 碎片（微博式短句）
+       ═══════════════════════════════════ -->
+  <section class="section" id="fragments">
+    <div class="section-inner">
+
+      <div class="sec-head reveal">
+        <p class="sec-eyebrow">FRAGMENTS</p>
+        <h2 class="sec-title">想法 · 碎片</h2>
+        <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+        <p class="sec-sub">一些不成章的短句，像散落在风里的念头。</p>
+      </div>
+
+      <!-- 碎片列表由脚本根据 site-data 生成 -->
+      <ol id="fragList" class="frag-list"></ol>
+      <button id="addFragment" class="admin-add hidden">＋ 新增一条</button>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       联系我
+       ═══════════════════════════════════ -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+
+      <div class="sec-head reveal">
+        <p class="sec-eyebrow">CONTACT</p>
+        <h2 class="sec-title">联系我</h2>
+        <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+        <p class="sec-sub">愿与你分享故事。</p>
+      </div>
+
+      <div class="contact-card reveal">
+        <h3 data-key="contactTitle">愿你收到一封来自山间的信</h3>
+        <p data-key="contactText">无论是想聊聊文章，还是讲讲你的山与海，都让我很高兴。</p>
+        <div class="contact-links">
+          <!-- 邮箱：编辑模式里点邮箱文字直接改，改了链接也会自动更新 -->
+          <a class="contact-item" href="mailto:hello@wcmheart.com">
+            <span class="c-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </span>
+            <span class="c-label" data-key="contactEmail">hello@wcmheart.com</span>
+          </a>
+          <!-- 个人网站：部署后的地址，记得包含 wcmheart -->
+          <a class="contact-item" href="https://wcmheart.com" target="_blank" rel="noopener">
+            <span class="c-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4.2" ry="9"/><path d="M3 12h18"/></svg>
+            </span>
+            <span class="c-label">wcmheart.com</span>
+          </a>
+          <!-- 公众号 / 微信：把 href="#" 换成你的链接 -->
+          <a class="contact-item" href="#">
+            <span class="c-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-5 5v-4a3 3 0 0 1-1-2.2V6z"/><path d="M8 10.5h.01M12 10.5h.01M16 10.5h.01" stroke-linecap="round"/></svg>
+            </span>
+            <span class="c-label">公众号：wcmheart</span>
+          </a>
+          <!-- GitHub / 其他社交：把 href="#" 换成你的主页 -->
+          <a class="contact-item" href="#" target="_blank" rel="noopener">
+            <span class="c-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.7.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.5-1.1-4.5-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.6 1a9 9 0 0 1 4.8 0c1.8-1.3 2.6-1 2.6-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.5 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.4 6.8-5.2 6.8-9.7C22 6.6 17.5 2 12 2z"/></svg>
+            </span>
+            <span class="c-label">GitHub</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════
+     页脚
+     ═══════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-seal">谦</div>
+  <p class="footer-name">wcmheart · 地山谦</p>
+  <p class="footer-tag">山藏于地，谦而不卑。</p>
+  <p class="footer-copy">© 2026 wcmheart · wcmheart.com</p>
+</footer>
+
+<!-- ═══════════════════════════════════
+     站长编辑模式的界面（密码弹窗 / 底栏 / 齿轮）
+     ═══════════════════════════════════ -->
+<div id="adminUI">
+  <!-- 左下角齿轮：点它输入密码进入编辑模式（访客也可以点，但没密码进不来） -->
+  <button id="adminGear" class="admin-gear" title="站长入口" aria-label="站长入口">⚙</button>
+
+  <!-- 密码弹窗 -->
+  <div id="adminModal" class="admin-modal hidden" role="dialog" aria-label="站长登录">
+    <div class="admin-modal-box">
+      <p>站长请进，输入密码</p>
+      <input type="password" id="adminPass" placeholder="密码" autocomplete="off">
+      <div class="admin-modal-actions">
+        <button class="admin-btn" id="adminCancel">取消</button>
+        <button class="admin-btn primary" id="adminOk">进入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 编辑模式底栏 -->
+  <div id="adminBar" class="admin-bar hidden">
+    <span class="status" id="adminStatus">编辑模式</span>
+    <button class="admin-btn primary" id="btnExport">⬇ 导出新文件</button>
+    <button class="admin-btn" id="btnExit">退出</button>
+  </div>
+</div>
+
+<!-- 回到顶部按钮 -->
+<a class="to-top" href="#top" id="toTop" aria-label="回到顶部">↑</a>
+
+<!-- ═══════════════════════════════════════════════════
+     站点内容数据（文章、碎片都存这里）
+     · 想直接改文章，就编辑这里的 JSON
+     · 每条文章字段：tag 分类 / title 标题 / date 日期 / teaser 摘要 / body 正文
+     · 每条碎片字段：time 日期 / text 短句 / tag 标签
+     ═══════════════════════════════════════════════════ -->
+<script type="application/json" id="site-data">
+{
+  "version": 0,
+  "articles": [
+    {"tag":"随笔","title":"一杯茶的时间","date":"2026-07-21 · 3 分钟","teaser":"沸水注入，茶叶慢慢舒展，世界忽然安静下来。","body":"（占位正文：这里写文章的完整内容。可以多写几段，回车换行。）"},
+    {"tag":"故事","title":"把山装进口袋","date":"2026-06-30 · 5 分钟","teaser":"在山里走了三天，我学会把沉默装进口袋。","body":"（占位正文：这里写文章的完整内容。）"},
+    {"tag":"读书","title":"读《谦》卦的笔记","date":"2026-06-11 · 4 分钟","teaser":"六十四卦里，唯有这一卦六爻皆吉。","body":"（占位正文：这里写文章的完整内容。）"},
+    {"tag":"旅行","title":"秋日远行","date":"2025-11-03 · 6 分钟","teaser":"秋天是最适合出发的季节，风凉了，心也轻了。","body":"（占位正文：这里写文章的完整内容。）"},
+    {"tag":"随笔","title":"雨天的窗","date":"2026-05-17 · 2 分钟","teaser":"下雨的时候，窗子变成了一幅会动的画。","body":"（占位正文：这里写文章的完整内容。）"},
+    {"tag":"想法","title":"慢下来的勇气","date":"2026-04-08 · 3 分钟","teaser":"快是一种能力，慢是一种勇气。","body":"（占位正文：这里写文章的完整内容。）"}
+  ],
+  "fragments": [
+    {"time":"07-28","text":"「山不矜高，自及于天。」","tag":"今日"},
+    {"time":"07-19","text":"今晚的风很轻，像有人在山的那一边深呼吸。","tag":"低语"},
+    {"time":"07-11","text":"谦卑不是否定自己，是给成长留出空间。","tag":"灵光"},
+    {"time":"06-27","text":"整理房间的时候，也在整理自己的心。","tag":"日常"},
+    {"time":"06-15","text":"读完《乾卦》，忽然明白了什么叫「自强不息」。","tag":"读书"},
+    {"time":"05-30","text":"路还长，慢慢走，山会一直在那里。","tag":"夜里"}
+  ]
+}
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   站点脚本：渲染文章/碎片 + 站长编辑模式
+   ═══════════════════════════════════════════════════ */
+
+/* —— ★ 站长密码：改这一行即可 ——
+   默认密码是 qian2026。
+   【诚实提醒】这是纯网页保护，只能“防君子”，挡不住有心人看源码。
+   真正的“只有你能改”来自发布环节：网站部署到 GitHub Pages 等平台后，
+   只有你有权限上传新文件；别人即使看到网页，也改不了你发布的内容。 */
+var ADMIN_PASSWORD = 'qian2026';
+
+var LS_KEY = 'wcmheart_site_v1';
+
+/* —— 读取内置数据（页面里的 <script id="site-data">）—— */
+var embedded = { version: 0, articles: [], fragments: [] };
+try { embedded = JSON.parse(document.getElementById('site-data').textContent.trim() || '{}'); }
+catch(e){ console.warn('站点数据解析失败', e); }
+
+/* —— 读取本机保存的数据（版本比内置新就采用本机的）——
+   这样你在浏览器里改的东西，刷新页面不会丢。 */
+var saved = null;
+try { saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch(e){}
+
+var state = (saved && saved.version > embedded.version)
+  ? saved
+  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [] };
+
+/* 把本机保存过的段落文字重新填回页面 */
+function applyProse(){
+  for (var k in state.prose) {
+    var el = document.querySelector('[data-key="'+k+'"]');
+    if (el) {
+      el.innerText = state.prose[k];
+      if (k === 'contactEmail') {
+        var a = el.closest('a');
+        if (a) a.href = 'mailto:' + el.innerText.trim();
+      }
+    }
+  }
+}
+
+/* HTML 转义：防止粘贴的内容破坏页面结构 */
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+
+/* —— 渲染文章列表 —— */
+function renderArticles(){
+  var box = document.getElementById('articleList');
+  box.innerHTML = state.articles.map(function(a, i){
+    return '<article class="card reveal revealed" data-idx="'+i+'">'
+      + '<button class="admin-del" data-del-article="'+i+'" title="删除这篇">✕</button>'
+      + '<details>'
+      +   '<summary>'
+      +     '<span class="card-tag" data-edit="tag">'+esc(a.tag)+'</span>'
+      +     '<h3 data-edit="title">'+esc(a.title)+'</h3>'
+      +     '<p class="card-meta" data-edit="date">'+esc(a.date)+'</p>'
+      +     '<p class="card-teaser" data-edit="teaser">'+esc(a.teaser)+'</p>'
+      +   '</summary>'
+      +   '<div class="card-full"><p data-edit="body">'+esc(a.body).replace(/\n/g,'<br>')+'</p></div>'
+      + '</details>'
+      + '</article>';
+  }).join('');
+}
+
+/* —— 渲染碎片列表 —— */
+function renderFragments(){
+  var box = document.getElementById('fragList');
+  box.innerHTML = state.fragments.map(function(f, i){
+    return '<li class="frag reveal revealed" data-idx="'+i+'">'
+      + '<button class="admin-del" data-del-fragment="'+i+'" title="删除这条">✕</button>'
+      + '<time data-edit="time">'+esc(f.time)+'</time>'
+      + '<p data-edit="text">'+esc(f.text)+'</p>'
+      + '<span class="frag-tag" data-edit="tag">'+esc(f.tag)+'</span>'
+      + '</li>';
+  }).join('');
+}
+
+function renderAll(){
+  renderArticles();
+  renderFragments();
+  makeEditable();
+}
+
+/* —— 是否可编辑：编辑模式下给文字加 contenteditable —— */
+function makeEditable(){
+  var editing = document.body.classList.contains('admin-mode');
+  var els = document.querySelectorAll('[data-key], [data-edit]');
+  for (var i = 0; i < els.length; i++){
+    if (editing) els[i].setAttribute('contenteditable', 'true');
+    else els[i].removeAttribute('contenteditable');
+  }
+}
+
+/* —— 保存到本机（自动调用，刷新不丢）—— */
+function saveLocal(){
+  try {
+    state.version = Date.now();
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+    status('已自动保存到本机 ✓');
+  } catch(e){}
+}
+
+function status(msg){
+  var s = document.getElementById('adminStatus');
+  if (s) s.textContent = msg;
+}
+
+/* —— 新增 / 删除 —— */
+function addArticle(){
+  state.articles.push({ tag:'随笔', title:'新的一篇', date:'2026-08-04 · 3 分钟', teaser:'写下你的开头……', body:'在这里写正文，回车可以换行。' });
+  renderAll(); saveLocal();
+}
+function addFragment(){
+  state.fragments.push({ time:'08-04', text:'一句新的想法……', tag:'灵光' });
+  renderAll(); saveLocal();
+}
+
+/* —— 进入 / 退出编辑模式 —— */
+function enterEditMode(){
+  document.body.classList.add('admin-mode');
+  document.getElementById('adminGear').classList.add('hidden');
+  document.getElementById('adminModal').classList.add('hidden');
+  document.getElementById('adminBar').classList.remove('hidden');
+  document.getElementById('addArticle').classList.remove('hidden');
+  document.getElementById('addFragment').classList.remove('hidden');
+  makeEditable();
+  status('编辑模式：点文字直接改，改完点「导出新文件」');
+}
+function exitEditMode(){
+  document.body.classList.remove('admin-mode');
+  document.getElementById('adminGear').classList.remove('hidden');
+  document.getElementById('adminBar').classList.add('hidden');
+  document.getElementById('addArticle').classList.add('hidden');
+  document.getElementById('addFragment').classList.add('hidden');
+  makeEditable();
+}
+
+/* —— 导出新文件：把当前内容写死进一份全新的 index.html 供下载发布 —— */
+function exportFile(){
+  try {
+    var tag = document.getElementById('site-data');
+    var orig = tag.innerHTML;                       // 当前页面里内置的旧 JSON
+    var newJSON = JSON.stringify(
+      { version: Date.now(), articles: state.articles, fragments: state.fragments },
+      null, 2
+    ).replace(/<\//g, '<\\/');                      // 防止正文里的结束标签破坏页面结构
+
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    html = html.replace(orig, newJSON);             // 用新数据替换内置数据
+
+    var blob = new Blob([html], { type:'text/html;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+
+    status('已生成新文件：用下载的 index.html 覆盖本地并上传发布');
+  } catch(err){
+    alert('导出失败：' + err.message);
+  }
+}
+
+/* ================= 密码登录 ================= */
+var modal = document.getElementById('adminModal');
+var passInput = document.getElementById('adminPass');
+var body = document.body;
+
+function showLogin(){ modal.classList.remove('hidden'); passInput.focus(); }
+function hideLogin(){ modal.classList.add('hidden'); passInput.value = ''; }
+function tryLogin(){
+  if (passInput.value === ADMIN_PASSWORD) { enterEditMode(); }
+  else { alert('密码不对哦～（默认密码在脚本顶部，改了它会生效）'); }
+}
+
+document.getElementById('adminGear').addEventListener('click', showLogin);
+document.getElementById('adminOk').addEventListener('click', tryLogin);
+document.getElementById('adminCancel').addEventListener('click', hideLogin);
+document.getElementById('btnExport').addEventListener('click', exportFile);
+document.getElementById('btnExit').addEventListener('click', exitEditMode);
+document.getElementById('addArticle').addEventListener('click', addArticle);
+document.getElementById('addFragment').addEventListener('click', addFragment);
+
+passInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') tryLogin(); });
+modal.addEventListener('click', function(e){ if (e.target === modal) hideLogin(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideLogin(); });
+
+/* 在地址后面加 #admin 打开时，直接弹出登录框 */
+if (location.hash === '#admin') showLogin();
+
+/* ================= 编辑文字：自动捕获修改 ================= */
+document.addEventListener('input', function(e){
+  if (!body.classList.contains('admin-mode')) return;
+  var t = e.target;
+
+  /* 段落文字（data-key） */
+  var key = t.getAttribute && t.getAttribute('data-key');
+  if (key) {
+    state.prose[key] = t.innerText;
+    if (key === 'contactEmail') {
+      var a = t.closest('a');
+      if (a) a.href = 'mailto:' + t.innerText.trim();
+    }
+    saveLocal();
+    return;
+  }
+
+  /* 文章/碎片里的字段（data-edit） */
+  var edit = t.getAttribute && t.getAttribute('data-edit');
+  var item = t.closest && t.closest('[data-idx]');
+  if (edit && item) {
+    var idx = +item.getAttribute('data-idx');
+    var list = item.closest('#articleList') ? state.articles : state.fragments;
+    if (list && list[idx]) { list[idx][edit] = t.innerText; saveLocal(); }
+  }
+});
+
+/* ================= 点击“✕”删除 ================= */
+document.addEventListener('click', function(e){
+  if (!body.classList.contains('admin-mode')) return;
+  var da = e.target.closest && e.target.closest('[data-del-article]');
+  if (da) { state.articles.splice(+da.getAttribute('data-del-article'), 1); renderAll(); saveLocal(); return; }
+  var df = e.target.closest && e.target.closest('[data-del-fragment]');
+  if (df) { state.fragments.splice(+df.getAttribute('data-del-fragment'), 1); renderAll(); saveLocal(); return; }
+});
+
+/* ================= 初始化：渲染 + 恢复 + 动效 ================= */
+try { renderAll(); applyProse(); }
+catch(e){ console.warn('初始化出错：', e); }
+
+/* 滚动渐显动画 */
+(function(){
+  var els = document.querySelectorAll('.reveal:not(.revealed)');
+  if (!('IntersectionObserver' in window)) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('revealed');
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('revealed'); io.unobserve(en.target); }
+    });
+  }, { threshold:0.12 });
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+
+  /* 兜底保险：即使观察器没触发，1.5 秒后也把内容全部显示出来，绝不出现空白页 */
+  setTimeout(function(){
+    var all = document.querySelectorAll('.reveal:not(.revealed)');
+    for (var k = 0; k < all.length; k++) all[k].classList.add('revealed');
+  }, 1500);
+})();
+
+/* 回到顶部按钮 */
+(function(){
+  var btn = document.getElementById('toTop');
+  if (!btn) return;
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 600) btn.classList.add('show');
+    else btn.classList.remove('show');
+  }, { passive:true });
+})();
+</script>
+
+</body>
+</html>

@@ -377,10 +377,47 @@ body.admin-mode .card details summary::after{display:none;}
   #about::before,#essays::before,#fragments::before{opacity:.035;}
 }
 
+
+/* 14 ── 余烬粒子 + 换页过渡（2026-08-05）── */
+/* 粒子背景层：固定在视口背后，不挡任何交互 */
+#emberField{position:fixed; top:0; left:0; z-index:-1; pointer-events:none;}
+
+/* 滚动到区块：模糊→清晰浮现（内观对焦感） */
+.js .reveal{filter:blur(5px); transition:opacity .95s ease, transform .95s ease, filter .95s ease;}
+.js .reveal.revealed{filter:none;}
+
+/* 导航高亮当前区块 */
+.nav-links a::after{content:""; position:absolute; left:50%; bottom:-4px; width:0; height:1.5px; background:var(--huo); transform:translateX(-50%); transition:width .35s ease;}
+.nav-links a.active{color:var(--huo);}
+.nav-links a.active::after{width:100%;}
+
+/* 首页开场：内容缓缓浮现 */
+@keyframes heroRise{
+  from{opacity:0; transform:translateY(22px); filter:blur(6px);}
+  to{opacity:1; transform:none; filter:none;}
+}
+.hero > *{animation:heroRise 1s ease both;}
+.hero > *:nth-child(1){animation-delay:.05s;}
+.hero > *:nth-child(2){animation-delay:.12s;}
+.hero > *:nth-child(3){animation-delay:.19s;}
+.hero > *:nth-child(4){animation-delay:.26s;}
+.hero > *:nth-child(5){animation-delay:.33s;}
+.hero > *:nth-child(6){animation-delay:.40s;}
+.hero > *:nth-child(7){animation-delay:.47s;}
+.hero > *:nth-child(8){animation-delay:.54s;}
+
+/* 用户偏好减少动态：全部关闭 */
+@media (prefers-reduced-motion: reduce){
+  #emberField{display:none;}
+  .js .reveal{opacity:1; transform:none; filter:none; transition:none;}
+  .hero > *{animation:none;}
+}
 </style>
 </head>
 
 <body class="">
+<!-- 余烬粒子背景层（暖色火星，不挡交互） -->
+<canvas id="emberField" aria-hidden="true"></canvas>
 
 <!-- ═══════════════════════════════════
      顶部导航栏
@@ -1189,4 +1226,113 @@ catch(e){ console.warn('初始化出错：', e); }
 
 
 
+
+<script>
+/* ── 余烬粒子：暖色火星缓缓上升（贴合“火·土·修”主题）── */
+(function(){
+  var canvas = document.getElementById('emberField');
+  if (!canvas || !canvas.getContext || !window.requestAnimationFrame) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var ctx = canvas.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var RGBS = [[195,81,61],[217,121,92],[166,123,91],[226,154,108],[184,92,56]]; /* 朱砂/余烬/陶土/金橙/赤陶 */
+  var W = 0, H = 0;
+  var COUNT = window.innerWidth < 720 ? 22 : 34;
+  var parts = [];
+  var rafId = null;
+
+  function resize(){
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  function mk(initial){
+    var i = (Math.random() * RGBS.length) | 0;
+    return {
+      x: Math.random() * W,
+      y: initial ? Math.random() * H : H + 12 + Math.random() * 40,
+      r: 1 + Math.random() * 2.2,
+      sp: 0.16 + Math.random() * 0.5,
+      sway: 0.3 + Math.random() * 0.9,
+      ph: Math.random() * Math.PI * 2,
+      tw: 0.005 + Math.random() * 0.02,
+      life: 0.55 + Math.random() * 0.4,
+      rgb: RGBS[i]
+    };
+  }
+
+  var t0 = performance.now();
+  function tick(now){
+    var dt = Math.min((now - t0) / 16.667, 3); t0 = now;
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < parts.length; i++){
+      var p = parts[i];
+      p.y -= p.sp * dt;
+      p.ph += p.tw * dt;
+      var x = p.x + Math.sin(p.ph) * p.sway * 16;
+      var a = p.life * (0.28 + 0.3 * Math.abs(Math.sin(p.ph * 1.6)));
+      if (a > 0.85) a = 0.85;
+      var R = p.rgb[0], G = p.rgb[1], B = p.rgb[2];
+      var glow = ctx.createRadialGradient(x, p.y, 0, x, p.y, p.r * 5);
+      glow.addColorStop(0, 'rgba(255,196,150,' + (a * 0.6) + ')');
+      glow.addColorStop(0.4, 'rgba(' + R + ',' + G + ',' + B + ',' + (a * 0.45) + ')');
+      glow.addColorStop(1, 'rgba(' + R + ',' + G + ',' + B + ',0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(x, p.y, p.r * 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,228,196,' + (a * 0.9) + ')';
+      ctx.beginPath(); ctx.arc(x, p.y, p.r * 0.9, 0, Math.PI * 2); ctx.fill();
+      if (p.y < -24) parts[i] = mk(false);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  resize();
+  for (var i = 0; i < COUNT; i++) parts.push(mk(true));
+  rafId = requestAnimationFrame(tick);
+  var rsT = null;
+  window.addEventListener('resize', function(){ clearTimeout(rsT); rsT = setTimeout(resize, 200); });
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden){ cancelAnimationFrame(rafId); rafId = null; }
+    else if (!rafId){ t0 = performance.now(); rafId = requestAnimationFrame(tick); }
+  });
+})();
+
+/* ── 导航高亮当前区块（随滚动跟随）── */
+(function(){
+  var links = document.querySelectorAll('.nav-links a');
+  var sections = [];
+  for (var i = 0; i < links.length; i++){
+    var href = links[i].getAttribute('href');
+    if (href && href.charAt(0) === '#'){
+      var sec = document.querySelector(href);
+      if (sec) sections.push({ link: links[i], sec: sec });
+    }
+  }
+  if (!sections.length) return;
+  function setActive(id){
+    for (var i = 0; i < sections.length; i++){
+      sections[i].link.classList.toggle('active', sections[i].sec.id === id);
+    }
+  }
+  /* 载入时先清掉可能残留的高亮（防止导出文件烤入运行时状态闪错） */
+  setActive('');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) setActive(en.target.id); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    for (var i = 0; i < sections.length; i++) io.observe(sections[i].sec);
+  } else {
+    window.addEventListener('scroll', function(){
+      var cur = '';
+      for (var i = 0; i < sections.length; i++){
+        var r = sections[i].sec.getBoundingClientRect();
+        if (r.top <= 120) cur = sections[i].sec.id;
+      }
+      if (cur) setActive(cur);
+    }, { passive: true });
+  }
+})();
+</script>
 </body></html>

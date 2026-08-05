@@ -49,7 +49,7 @@
   --tao:#A67B5B;          /* 陶土棕 · 土 */
   --mi:#FBF7F0;           /* 米白底 · 土 */
   --shen:#4E3E2E;         /* 深褐 · 土 · 字 */
-  --jin:#2C2416;          /* 金墨 · 卦爻点缀 */
+  --jin:#2C2416;          /* 金墨 · 点缀 */
   --ink-faint:#9A8B76;    /* 弱字 */
   --line:rgba(78,62,46,.20);
   --line-soft:rgba(78,62,46,.10);
@@ -78,10 +78,15 @@ body{
   overflow-x:hidden;
   background-color:var(--mi);
   /* 大地承载：暖土色柔和渐变（火自地生，土厚承火） */
+    /* 岩彩水墨：矿物颜料色池（石绿/石青/赭石/土褐/朱砂）+ 暖纸底 */
   background:
-    radial-gradient(ellipse 75% 50% at 50% -12%, rgba(217,121,92,.10) 0%, rgba(217,121,92,0) 62%),
-    radial-gradient(ellipse 90% 45% at 50% 112%, rgba(166,123,91,.14) 0%, rgba(166,123,91,0) 60%),
-    linear-gradient(180deg, #FBF7F0 0%, #F7EFE2 55%, #F3E8D8 100%);
+    radial-gradient(ellipse 55% 40% at 15% 20%, rgba(126,152,142,.15) 0%, rgba(126,152,142,0) 62%),
+    radial-gradient(ellipse 50% 38% at 85% 16%, rgba(98,126,158,.13) 0%, rgba(98,126,158,0) 60%),
+    radial-gradient(ellipse 45% 32% at 10% 84%, rgba(176,124,70,.13) 0%, rgba(176,124,70,0) 58%),
+    radial-gradient(ellipse 60% 40% at 82% 78%, rgba(150,110,72,.12) 0%, rgba(150,110,72,0) 60%),
+    radial-gradient(ellipse 70% 55% at 50% 116%, rgba(185,132,72,.20) 0%, rgba(185,132,72,0) 62%),
+    radial-gradient(ellipse 30% 24% at 50% 30%, rgba(195,81,61,.05) 0%, rgba(195,81,61,0) 55%),
+    linear-gradient(180deg, #F7F1E5 0%, #F0E6D2 52%, #E7D7BC 100%);
   background-attachment:fixed;
 }
 
@@ -140,11 +145,11 @@ body::after{
 }
 /* 修字水印：淡到似有若无（金墨，半掩于内容之后） */
 .hero-xiu{
-  position:absolute; left:50%; top:42%; transform:translate(-52%,-50%) rotate(-6deg);
+  position:absolute; left:3vw; top:50%; transform:translateY(-50%) rotate(-6deg);
   font-family:var(--font-kai); font-weight:700;
-  font-size:clamp(13rem,38vw,30rem);
+  font-size:clamp(10rem,26vw,22rem);
   line-height:.95;
-  color:var(--jin); opacity:.05;
+  color:var(--jin); opacity:.06;
   z-index:1; pointer-events:none; user-select:none;
 }
 /* 远山：陶土色山脊 */
@@ -159,16 +164,19 @@ body::after{
 .hero-hex{position:relative; margin:0 0 1.8rem;}
 .hero-orb{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(72vw,330px); aspect-ratio:1; border-radius:50%; background:radial-gradient(circle, rgba(195,81,61,.16) 0%, rgba(195,81,61,0) 68%);}
 .hexagram{position:relative; width:min(68vw,300px); height:auto;}
+.hexagram rect:nth-of-type(1){fill:rgba(251,247,240,.88); stroke:rgba(78,62,46,.22);}
+.hexagram rect:nth-of-type(9){fill:rgba(195,81,61,.14);}
+.hexagram rect:nth-of-type(10), .hexagram rect:nth-of-type(15){fill:var(--huo);}
 /* 卦象内文字（宋体 · 墨色） */
 .hex-title{font-family:var(--font-serif); font-size:19px; letter-spacing:.35em; fill:var(--jin);}
 .hex-sub{font-size:9px; letter-spacing:.28em; fill:var(--ink-faint);}
 .hex-vert{font-family:var(--font-serif); font-size:17px; letter-spacing:.3em; fill:var(--jin);}
 .hex-label{font-size:12px; font-family:var(--font-serif); fill:var(--shen);}
 .hex-seal-text{font-family:var(--font-serif); font-size:21px; fill:var(--mi);}
-/* 卦象纸面与朱砂阳爻统一到火土系（rect顺序：1框 2内线 …9柔光 10阳爻 …15印章） */
-.hexagram rect:nth-of-type(1){fill:rgba(251,247,240,.88); stroke:rgba(78,62,46,.22);}
-.hexagram rect:nth-of-type(9){fill:rgba(195,81,61,.14);}
-.hexagram rect:nth-of-type(10), .hexagram rect:nth-of-type(15){fill:var(--huo);}
+/* 卦象纸面与朱砂阳爻统一到火土系 */
+
+
+
 /* 宣言（书法涩感） */
 .hero-title{
   font-family:var(--font-kai); font-weight:700;
@@ -369,7 +377,7 @@ body.admin-mode .card details summary::after{display:none;}
   .about-note{text-align:left;}
   .nav-links{gap:.95rem;}
   .nav-links a{font-size:.9rem;}
-  .hero-xiu{top:38%; font-size:clamp(10rem,44vw,16rem);}
+  .hero-xiu{top:42%; left:1vw; font-size:clamp(8rem,30vw,13rem);}
   .doodle-fire{width:62px; top:11%; right:5%;}
   .doodle-earth{width:110px; right:5%; bottom:27%;}
   .contact-links .contact-item{flex:1 1 40%;}
@@ -381,6 +389,7 @@ body.admin-mode .card details summary::after{display:none;}
 /* 14 ── 余烬粒子 + 换页过渡（2026-08-05）── */
 /* 粒子背景层：固定在视口背后，不挡任何交互 */
 #emberField{position:fixed; top:0; left:0; z-index:-1; pointer-events:none;}
+#rockBg{position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-2; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.30  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3Cg fill='%23C8A55A'%3E%3Ccircle cx='30' cy='40' r='0.9' opacity='.5'/%3E%3Ccircle cx='180' cy='60' r='1.1' opacity='.6'/%3E%3Ccircle cx='220' cy='150' r='0.8' opacity='.45'/%3E%3Ccircle cx='60' cy='190' r='1' opacity='.5'/%3E%3Ccircle cx='140' cy='220' r='0.9' opacity='.55'/%3E%3Ccircle cx='250' cy='30' r='0.7' opacity='.4'/%3E%3C/g%3E%3C/svg%3E"); opacity:.9;}
 
 /* 滚动到区块：模糊→清晰浮现（内观对焦感） */
 .js .reveal{filter:blur(5px); transition:opacity .95s ease, transform .95s ease, filter .95s ease;}
@@ -418,6 +427,8 @@ body.admin-mode .card details summary::after{display:none;}
 <body class="">
 <!-- 余烬粒子背景层（暖色火星，不挡交互） -->
 <canvas id="emberField" aria-hidden="true"></canvas>
+<!-- 岩彩水墨底纹：矿物颗粒 + 泥金微尘 -->
+<div id="rockBg" aria-hidden="true"></div>
 
 <!-- ═══════════════════════════════════
      顶部导航栏
@@ -473,11 +484,8 @@ body.admin-mode .card details summary::after{display:none;}
 
       <p class="hero-eyebrow reveal revealed" data-key="heroEyebrow">明天一定早睡</p>
 
-      <!-- ▼▼▼ 地山谦卦象 SVG ▼▼▼
-           卦象：上坤下艮，即「地在上、山在下」。
-           唯一阳爻「九三」（大山的骨血）埋在阴爻大地之下——
-           山藏于地，谦也。我把它点成朱砂红，象征谦逊外表下内蕴的力量。 -->
-      <div class="hero-hex reveal revealed">
+      <!-- ▼▼▼ 地山谦卦象 SVG ▼▼▼ 卦象：上坤下艮，即「地在上、山在下」。唯一阳爻「九三」（大山的骨血）埋在阴爻大地之下——山藏于地，谦也。我把它点成朱砂红，象征谦逊外表下内蕴的力量。 -->
+            <div class="hero-hex reveal revealed">
         <span class="hero-orb" aria-hidden="true"></span>
         <svg class="hexagram" viewBox="0 0 320 360" role="img" aria-label="地山谦卦象，山藏于地之下">
           <rect x="22" y="14" width="276" height="332" rx="18" fill="rgba(255,253,246,0.72)" stroke="#C6BAA3" stroke-width="1.2"></rect>
@@ -718,7 +726,7 @@ body.admin-mode .card details summary::after{display:none;}
      · 每条碎片字段：time 日期 / text 短句 / tag 标签
      ═══════════════════════════════════════════════════ -->
 <script type="application/json" id="site-data">{
-  "version": 1785899040203,
+  "version": 1785910860965,
   "articles": [
     {
       "tag": "随笔",
@@ -729,10 +737,10 @@ body.admin-mode .card details summary::after{display:none;}
     },
     {
       "tag": "故事",
-      "title": "我最大的弱点",
+      "title": "我的weakness",
       "date": "2026-06-30 · 5 分钟",
       "teaser": "在山里走了三天，我学会把沉默装进口袋。",
-      "body": "（占位正文：这里写文章的完整内容。）"
+      "body": "胆小心软懦弱自卑"
     },
     {
       "tag": "读书",
@@ -840,33 +848,33 @@ body.admin-mode .card details summary::after{display:none;}
   ],
   "fragments": [
     {
-      "time": "07-28",
+      "time": "07-15",
       "text": "「山不矜高，自及于天。」",
-      "tag": "今日"
+      "tag": "我最好朋友的生日"
     },
     {
-      "time": "07-19",
+      "time": "12-09",
       "text": "今晚的风很轻，像有人在山的那一边深呼吸。",
-      "tag": "低语"
+      "tag": "谜语生日"
     },
     {
       "time": "07-11",
-      "text": "谦卑不是否定自己，是给成长留出空间。",
+      "text": "锦瑟无端五十弦",
       "tag": "灵光"
     },
     {
       "time": "06-27",
-      "text": "整理房间的时候，也在整理自己的心。",
+      "text": "安得广厦千万间，大庇天下寒士俱欢颜",
       "tag": "日常"
     },
     {
       "time": "10.17",
-      "text": "读完《乾卦》，忽然明白了什么叫「自强不息」。",
+      "text": "《乾卦》，「自强不息」。",
       "tag": "这个日期我第一次记得是在高三的时候"
     },
     {
       "time": "3.17",
-      "text": "路还长，慢慢走，山会一直在那里。",
+      "text": "一切随缘",
       "tag": "我自己生日"
     }
   ],

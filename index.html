@@ -1027,9 +1027,36 @@ function renderAll(){
 }
 
 /* —— 是否可编辑：编辑模式下给文字加 contenteditable —— */
+/* 收集所有可编辑的文本元素（排除功能性/装饰区） */
+function getEditables(){
+  var els = document.querySelectorAll(
+    '[data-key], [data-edit], .sec-eyebrow, .sec-title, .sec-sub, .hero-eyebrow, .hero-title, .hero-sub, .hero-cta, p, h1, h2, h3, h4, li, blockquote, figcaption, small, em, strong, cite'
+  );
+  var out = [];
+  for (var i = 0; i < els.length; i++){
+    var el = els[i];
+    if (!el.textContent || !el.textContent.replace(/\s/g, '')) continue;
+    if (el.closest && el.closest('button, input, textarea, select, .nav-links, #tagFilter, #adminBar, #adminModal, #adminGear, .tag-chip, .hero-xiu, #toTop, #rockBg, #emberField, .admin-bar, .doodle')) continue;
+    if (el.tagName === 'A' && !el.getAttribute('data-key') && !el.classList.contains('hero-cta')) continue;
+    out.push(el);
+  }
+  return out;
+}
+/* 给没有 data-key 的文本元素自动分配稳定编号，让编辑能保存、刷新不丢 */
+function assignEditKeys(){
+  var els = getEditables();
+  var n = 0;
+  for (var i = 0; i < els.length; i++){
+    var el = els[i];
+    if (!el.getAttribute('data-key') && !el.getAttribute('data-edit')){
+      el.setAttribute('data-key', 'auto-' + n);
+      n++;
+    }
+  }
+}
 function makeEditable(){
   var editing = document.body.classList.contains('admin-mode');
-  var els = document.querySelectorAll('[data-key], [data-edit]');
+  var els = getEditables();
   for (var i = 0; i < els.length; i++){
     if (editing) els[i].setAttribute('contenteditable', 'true');
     else els[i].removeAttribute('contenteditable');
@@ -1305,7 +1332,7 @@ document.getElementById('avatarFile').addEventListener('change', function(){
 });
 
 /* ================= 初始化：渲染 + 恢复 + 动效 ================= */
-try { renderAll(); applyProse(); }
+try { renderAll(); assignEditKeys(); applyProse(); }
 catch(e){ console.warn('初始化出错：', e); }
 
 /* 滚动渐显动画 */

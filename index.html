@@ -950,8 +950,9 @@ try { saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch(e){}
 
 var state = (saved && saved.version > embedded.version)
   ? saved
-  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [], avatar: '' };
-if (!state.avatar) state.avatar = '';
+  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [], avatar: embedded.avatar || '' };
+/* 头像兜底（锁头像）：本机或内置哪边有真头像就用哪边，绝不让空头像把照片弄丢 */
+if (!state.avatar && embedded.avatar) state.avatar = embedded.avatar;
 
 /* 把本机保存过的段落文字重新填回页面 */
 function applyProse(){
@@ -1113,7 +1114,7 @@ function exportFile(){
     var tag = document.getElementById('site-data');
     var orig = tag.innerHTML;                       // 当前页面里内置的旧 JSON
     var newJSON = JSON.stringify(
-      { version: Date.now(), articles: state.articles, fragments: state.fragments, avatar: state.avatar || '' },
+      { version: Date.now(), articles: state.articles, fragments: state.fragments, avatar: state.avatar || embedded.avatar || '' },
       null, 2
     ).replace(/<\//g, '<\\/');                      // 防止正文里的结束标签破坏页面结构
 

@@ -426,7 +426,7 @@ body.admin-mode .card details summary::after{display:none;}
 
 <body class="">
 <!-- 余烬粒子背景层（暖色火星，不挡交互） -->
-<canvas id="emberField" aria-hidden="true"></canvas>
+<canvas id="emberField" aria-hidden="true" width="1910" height="873" style="width: 1698px; height: 776px;"></canvas>
 <!-- 岩彩水墨底纹：矿物颗粒 + 泥金微尘 -->
 <div id="rockBg" aria-hidden="true"></div>
 
@@ -439,8 +439,8 @@ body.admin-mode .card details summary::after{display:none;}
     <span data-key="siteName">heart</span>
   </a>
   <nav class="nav-links">
-    <a href="#about">关于</a>
-    <a href="#essays">随笔</a>
+    <a href="#about" class="active">关于</a>
+    <a href="#essays" class="">随笔</a>
     <a href="#fragments">碎片</a>
     <a href="#contact">联系</a>
   </nav>
@@ -517,7 +517,7 @@ body.admin-mode .card details summary::after{display:none;}
       <h1 class="hero-title reveal revealed" data-key="heroTitle">山藏于地，谦而不卑。</h1>
       <p class="hero-sub reveal revealed" data-key="heroSub">这里记录我的故事、想法与随笔。<br>愿我们在沉静处，看见彼此的山川。</p>
 
-      <a class="hero-cta reveal revealed" href="#about">认识我</a>
+      <a class="hero-cta reveal revealed" href="#about" data-key="auto-0">认识我</a>
     </div>
 
     <div class="hero-scroll" aria-hidden="true"></div>
@@ -530,10 +530,10 @@ body.admin-mode .card details summary::after{display:none;}
     <div class="section-inner">
 
       <div class="sec-head reveal revealed">
-        <p class="sec-eyebrow">ABOUT ME</p>
-        <h2 class="sec-title">关于我</h2>
+        <p class="sec-eyebrow" data-key="auto-1">ABOUT ME</p>
+        <h2 class="sec-title" data-key="auto-2">关于我</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
-        <p class="sec-sub">一个正在慢慢生长的人。</p>
+        <p class="sec-sub" data-key="auto-3">一个正在慢慢生长的人。</p>
       </div>
 
       <div class="about-grid">
@@ -559,14 +559,14 @@ body.admin-mode .card details summary::after{display:none;}
         </div>
 
         <div class="about-text reveal revealed">
-          <h3 data-key="aboutName">你好，我是 小明。</h3>
-          <p data-key="aboutP1">山藏于地，谦而不卑。我热爱世界、生活与一切慢下来才能看见的东西。白天在人群里穿行，夜晚于滴答中沉思......</p>
+          <h3 data-key="aboutName">我是 小明。</h3>
+          <p data-key="aboutP1">山藏于地，谦而不卑。我热爱世界、生活与。白天在人群里穿行，夜晚于滴答中沉思......</p>
           <p data-key="aboutP2">这个小小的网站是我的自留地：收藏走过路的风景，记录脑海里的想法，也写下一些不成气候的随笔。也记录自己-丑戌未-三刑每天夜晚的思虑。</p>
           <div class="tags">
             <!-- 标签想增删：编辑模式里点单个标签可改文字；要加新标签就复制一行 <span>…</span> -->
             <span>阅读</span><span>写作</span><span>远山</span><span>茶</span><span>慢生活</span>
           </div>
-          <blockquote class="about-note">
+          <blockquote class="about-note" data-key="auto-4">
             <p data-key="aboutNote">《谦》卦象曰：「地中有山，谦。」山本高于地，却甘愿藏于大地之下——这就是「谦」：不张扬，却始终保有山河般的底气。</p><div>人总有冲天之志，而非运不可自通。命理不是对命运的改观定论，趋吉避凶也不是最贴切的做法，往往面对未来既定事实而不放弃，窥探命运的那一刻，首先不是觉得命运的不公，不妨转念，正是命运的一点点起伏，构成人生。如果我这么说肯定很多人不认同，觉得人生越快乐越好，我不否认也不批判，因为最终最高级的窥探命运正是修心，一个修自己内心的人是不会这样想的，虽然大家悟性和接受能力天生不一样，（没办法这是每个人出生八字自带），不妨放慢脚步，仔细思考我的话：修心，一件事情一个困难，一切取决你怎么看。我在写这些话的时候正在和师兄出差，每次遇到他聊天谈论到我的手串时候，他总局会说我的手串是工业垃圾，说啥可以买我一条命。我说这个不是批判他，而是我怎么做的态度，根本没有放在心上，那么这些可能会被很多人觉得很烦的事情变不是事情。事情和困难困难也不是事情和困难，很多人总说今天很晦气很倒霉，如果这样的事情发送在别人身上可能他觉得一条很平静。我并没有拉踩，也没有苦难活该论，（有的确是苦难），这便是我认为的修心，心变，一切都变。修自己，很多事情变迎刃而解，哪怕本来不好的命也会变好，只不过角度不同，这点和了凡四训里面的主要论点是不同的，关于了凡四训我后续再谈。</div><p></p>
           </blockquote>
         </div>
@@ -582,15 +582,15 @@ body.admin-mode .card details summary::after{display:none;}
     <div class="section-inner">
 
       <div class="sec-head reveal revealed">
-        <p class="sec-eyebrow">STORIES &amp; ESSAYS</p>
-        <h2 class="sec-title">随笔 · 故事</h2>
+        <p class="sec-eyebrow" data-key="auto-5">STORIES &amp; ESSAYS</p>
+        <h2 class="sec-title" data-key="auto-6">随笔 · 故事</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
-        <p class="sec-sub">把走过的路、读过的书，一点一点写下来。</p>
+        <p class="sec-sub" data-key="auto-7">把走过的路、读过的书，一点一点写下来。</p>
       </div>
 
       <!-- 文章卡片由脚本根据 site-data 生成，编辑模式里可增删改 -->
             <!-- 分类筛选：点标签只看某一类文章（自动生成） -->
-      <div class="tag-filter" id="tagFilter"><button class="tag-chip" data-filter="all">全部</button><button class="tag-chip active" data-filter="随笔">随笔</button><button class="tag-chip" data-filter="故事">故事</button><button class="tag-chip" data-filter="读书">读书</button><span class="tag-count">共 7 篇</span></div>
+      <div class="tag-filter" id="tagFilter"><button class="tag-chip" data-filter="all">全部</button><button class="tag-chip" data-filter="随笔">随笔</button><button class="tag-chip active" data-filter="故事">故事</button><button class="tag-chip" data-filter="读书">读书</button><button class="tag-chip" data-filter="如何做">如何做</button><span class="tag-count">共 30 篇</span></div>
       <!-- 文章卡片由脚本根据 site-data 生成 -->
       <div id="articleList" class="card-grid" aria-label="文章列表"></div>
       <button id="addArticle" class="admin-add hidden">＋ 新增一篇</button>
@@ -605,10 +605,10 @@ body.admin-mode .card details summary::after{display:none;}
     <div class="section-inner">
 
       <div class="sec-head reveal revealed">
-        <p class="sec-eyebrow">FRAGMENTS</p>
-        <h2 class="sec-title">想法 · 碎片</h2>
+        <p class="sec-eyebrow" data-key="auto-8">FRAGMENTS</p>
+        <h2 class="sec-title" data-key="auto-9">想法 · 碎片</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
-        <p class="sec-sub">一些不成章的短句，像散落在风里的念头。</p>
+        <p class="sec-sub" data-key="auto-10">一些不成章的短句，像散落在风里的念头。</p>
       </div>
 
       <!-- 碎片列表由脚本根据 site-data 生成 -->
@@ -625,10 +625,10 @@ body.admin-mode .card details summary::after{display:none;}
     <div class="section-inner">
 
       <div class="sec-head reveal revealed">
-        <p class="sec-eyebrow">CONTACT</p>
-        <h2 class="sec-title">联系我</h2>
+        <p class="sec-eyebrow" data-key="auto-17">CONTACT</p>
+        <h2 class="sec-title" data-key="auto-18">联系我</h2>
         <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
-        <p class="sec-sub">愿与你分享故事。</p>
+        <p class="sec-sub" data-key="auto-19">愿与你分享故事。</p>
       </div>
 
       <div class="contact-card reveal revealed">
@@ -681,9 +681,9 @@ body.admin-mode .card details summary::after{display:none;}
     <circle cx="112" cy="20" r="9" fill="none" stroke="#C13827" stroke-width="2"></circle>
   </svg>
   <div class="footer-seal">谦</div>
-  <p class="footer-name">wcmheart · 地山谦</p>
-  <p class="footer-tag">山藏于地，谦而不卑。</p>
-  <p class="footer-copy">© 2026 wcmheart · Dreamker03king.github.io/wcmheart</p>
+  <p class="footer-name" data-key="auto-20">wcmheart · 地山谦</p>
+  <p class="footer-tag" data-key="auto-21">山藏于地，谦而不卑。</p>
+  <p class="footer-copy" data-key="auto-22">© 2026 wcmheart · Dreamker03king.github.io/wcmheart</p>
 </footer>
 
 <!-- ═══════════════════════════════════
@@ -726,7 +726,7 @@ body.admin-mode .card details summary::after{display:none;}
      · 每条碎片字段：time 日期 / text 短句 / tag 标签
      ═══════════════════════════════════════════════════ -->
 <script type="application/json" id="site-data">{
-  "version": 1785983910723,
+  "version": 1786032133831,
   "articles": [
     {
       "tag": "随笔",
@@ -897,16 +897,16 @@ body.admin-mode .card details summary::after{display:none;}
       "tag": "故事",
       "title": "我的父亲",
       "date": "2026-08-04 · 3 分钟",
-      "teaser": "写下你的开头……",
-      "body": "在这里写正文，回车可以换行。",
+      "teaser": "伟大的父亲",
+      "body": "写于2026年晚上8.6。今天是父亲的生日，我给父亲打了个电话，父亲生日其实经常记不住，不过我的妈妈会提醒我，父母是很相爱的。我的父亲是很伟大。在我刚刚出生那会便独自一人在外打拼，从来不舍得给自己买一件贵重的物品，他很不善言辞，偶尔语言尽显笨拙，父亲是成默的，我经常会问我自己，等我当父亲了不知道会不会做到跟他一样，我不知道可能很难。6年纪的时候他便自己承包土地，再苦再累从来不说，对我无条件的信任，从来没有打骂过我，是他让我知道了一个男人的担当，男人的底层是吃苦耐劳和承担，不过最让我难过的是一年我几乎只能见到2此或者1次父亲。父亲不是完美的，他尽力了，他总说要给我买房，我听完很无奈也很心疼，如果自己的能力再大一点就好了，父亲种地那么多真的让人不忍心。如今我将要工作了，在读研这几年让我真正的认识到怎么去做一个男人，人生的目标越发清晰，对我自己来说责任传递到我的身上。他的缺点我会避免，不是尽量避免是我一定会，他的优点我也会学习。",
       "image": ""
     },
     {
       "tag": "故事",
       "title": "我的小学",
       "date": "2026-08-04 · 3 分钟",
-      "teaser": "写下你的开头……",
-      "body": "在这里写正文，回车可以换行。",
+      "teaser": "路虽已远去，却在我回头的那一刻一眼望穿路边的花草。",
+      "body": "小学过的很有意思，那个时候家里很穷很穷。在我一年级那好，父母离家，我跟着奶奶上学，在学校旁边租了个很小很小的房间，每个周五，我和奶奶都会徒步很远很远的距离回王村，路上给我的记忆是很开心的，可以和奶奶说很多很多话，有时候拿了奖状更是像小鸟一样叽叽喳喳，恨不得马上飞回去告诉爷爷，爷爷也很爱吹牛，到处说自己的大孙子多厉害多厉害，每次都给我说的不好意思却又很开心。\n小学一年级那会，我们租的房子对面是小卖店，每次都会有很多很多好吃的，不过我知道这跟我无缘，因为穷，我没有零花钱。有时候实在太馋了，偷偷的在大家放学都走完了，小卖店也关门了，在门口寻找有没有没有吃完的辣条袋子，吃过好多次，有时候是跟我的小伙伴一起，最好喝的当时捡到没有喝完的奶茶，跟我小伙伴分着喝了，是哈密瓜味道。不过后来我的奶奶有天晚上说第二天给我买奶茶喝，给我开心了一整个晚上，我到现在还记得，我那天晚上高兴的一直和奶奶说话，说明天你买一杯我买一杯，怎么分配，小小的那个时候真的很开心。第二天也还是哈密瓜味道的，很一般。给我印象最深刻的是有一条雨后，天气阴沉，我找到一个还有几根辣条的袋子，尝了尝，那被水泡的发白的辣条味道是真的很恶心。不过那个时候很开心，有小伙伴有奶奶，有我的卡片。\n\n不开心的事情：这个事情我可以记一辈子：（写于8.7凌晨，困了第二天再写把）",
       "image": ""
     },
     {
@@ -955,6 +955,14 @@ body.admin-mode .card details summary::after{display:none;}
       "date": "2026-08-04 · 3 分钟",
       "teaser": "识人术",
       "body": "可以去参考曾国藩的冰鉴，命理学的麻衣神相等等，如果能搞到八字可以看八字和紫薇即可。",
+      "image": ""
+    },
+    {
+      "tag": "故事",
+      "title": "等等再等等",
+      "date": "2026-08-04 · 3 分钟",
+      "teaser": "等等",
+      "body": "我希望在未来遇到一个心灵契合的人，一起生活。早起给她做早饭，回去的时候双手总是有礼物。只希望所作一切让她幸福让她顺遂。写下这些莫名有些害羞，所以我把标题写的很隐晦。。。我是一个愿意为另一半付出很多很多的人，也希望对方能够心疼我便是最好。可是我的八字夫妻宫有三刑，我的另一半注定是管着我的，很强势，不过我不在乎，管着我挺好的，倒是觉得很幸福。三刑代表肯定很多摩擦，经常有很多摩擦，在经历了很多事情之后，我终于知道改变一个有多难，大概或许真的比登天还难，怎么办？或许只有改变自己，要想生活如意，只有我自己多包容，但是我希望她可以读懂我，骂我和吵架的时候别计较，也懂的心疼我，不需要怎么怎么包容我，像父母骂完小孩子，依然会喊他吃饭一样就好了，那么怎么样我都愿意，付出没什么不好，让生活开心一点，或许包容和付出便是我个人在这个世界上开心的诀窍。写于8.6晚。",
       "image": ""
     }
   ],

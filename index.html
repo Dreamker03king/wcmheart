@@ -16,7 +16,7 @@
    ▍两种模式
    · 访客模式（默认）：别人打开网站，只能看，改不了。
    · 站长编辑模式（只有你）：点左下角的「⚙」齿轮，输入密码进入，
-     进入后可以直接在页面上点文字修改，也能“＋新增”或“✕删除”文章/碎片。
+     进入后可以直接在页面上点文字修改，也能“＋新增”或“✕删除”文章/碎片/日记。
 
    ▍编辑流程
    1. 点左下角 ⚙，输入密码（默认 qian2026，改法见文件底部脚本）
@@ -25,8 +25,22 @@
    4. 把这个新文件 ①覆盖本地的旧文件，②上传到你的网站空间发布
    别人打开你发布的那份，看到的就是最新内容。
 
+   ▍日记怎么用（2026-10-06 新增）
+   · 进入站长模式后，点「＋ 写今天的日记」就会新增一篇，日期自动填成今天。
+   · 写的时候：日期、天气、心情、正文，点哪一项改哪一项。
+   · 天气和心情可以不写，空着访客就看不到这两个小标签。
+   · 看的时候是两层折叠：先按月分（2026 年 10 月…），点月份展开；
+     再点具体某一天展开看全文。页面上方有「全部展开 / 全部收起」一键开关。
+   · 默认展开最新那个月，各天都是收起的（页面看起来清爽）。
+   · 日期随便写都行：2026-10-06、2026.9.28、2026年9月3日、10-06 都认；
+     实在写不出来（比如「没写清日子」）就归到最后的「未标注日期」里。
+   · 排序是自动的：按日期从新到旧，最新的永远排最上面（不用自己挪）。
+   · 删除：编辑模式下每条日记右边有「✕」，点了会让你确认一次。
+
    ▍本站内容都在哪里
-   · 文章、碎片：存在页面底部的 <script id="site-data"> 里（也能直接改）
+   · 文章、碎片、日记：存在页面底部的 <script id="site-data"> 里（也能直接改）
+       articles[] 文章 / fragments[] 碎片 / diary[] 日记
+       日记每条长这样：{"date":"2026-10-06", "weather":"晴", "mood":"平静", "body":"正文…"}
    · 首页宣言、自我介绍、联系方式：直接搜下面的 data-key 关键词
        siteName 站点名 / heroTitle 个人宣言 / aboutName 自我介绍 /
        contactEmail 邮箱
@@ -204,12 +218,12 @@ body::after{
 .section-inner{position:relative; z-index:1; max-width:1040px; margin:0 auto;}
 
 /* 各区块的暗纹底（变易：悬停时微妙显现） */
-#about::before, #essays::before, #fragments::before{
+#about::before, #essays::before, #fragments::before, #diary::before{
   content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
   background-repeat:no-repeat;
   opacity:.05; transition:opacity 1.2s ease;
 }
-#about:hover::before, #essays:hover::before, #fragments:hover::before{opacity:.09;}
+#about:hover::before, #essays:hover::before, #fragments:hover::before, #diary:hover::before{opacity:.09;}
 /* 先天八卦单线图（关于我） */
 #about::before{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Ccircle cx='180' cy='180' r='150' fill='none' stroke='%232C2416' stroke-width='1'/%3E%3Ccircle cx='180' cy='180' r='118' fill='none' stroke='%232C2416' stroke-width='.6'/%3E%3Cline x1='167' y1='28' x2='193' y2='28' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='167' y1='40' x2='193' y2='40' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='167' y1='52' x2='193' y2='52' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='69' x2='292' y2='69' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='81' x2='292' y2='81' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='93' x2='275' y2='93' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='283' y1='93' x2='292' y2='93' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='307' y1='168' x2='333' y2='168' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='307' y1='180' x2='316' y2='180' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='324' y1='180' x2='333' y2='180' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='307' y1='192' x2='333' y2='192' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='249' x2='292' y2='249' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='261' x2='275' y2='261' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='283' y1='261' x2='292' y2='261' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='266' y1='273' x2='275' y2='273' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='283' y1='273' x2='292' y2='273' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='167' y1='308' x2='176' y2='308' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='184' y1='308' x2='193' y2='308' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='167' y1='320' x2='176' y2='320' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='184' y1='320' x2='193' y2='320' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='167' y1='332' x2='176' y2='332' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='184' y1='332' x2='193' y2='332' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='249' x2='77' y2='249' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='85' y1='249' x2='94' y2='249' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='261' x2='94' y2='261' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='273' x2='77' y2='273' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='85' y1='273' x2='94' y2='273' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='27' y1='168' x2='36' y2='168' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='44' y1='168' x2='53' y2='168' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='27' y1='180' x2='36' y2='180' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='44' y1='180' x2='53' y2='180' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='27' y1='192' x2='53' y2='192' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='87' x2='77' y2='87' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='85' y1='87' x2='94' y2='87' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='99' x2='77' y2='99' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='85' y1='99' x2='94' y2='99' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='68' y1='111' x2='77' y2='111' stroke='%232C2416' stroke-width='1.1'/%3E%3Cline x1='85' y1='111' x2='94' y2='111' stroke='%232C2416' stroke-width='1.1'/%3E%3C/svg%3E");
@@ -226,9 +240,16 @@ body::after{
   background-position:96% 28%; background-size:min(42vw,420px);
 }
 
+/* 日纹（日记）：一圈圈荡开的水纹 + 中间一点朱砂「日」 */
+#diary::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg fill='none' stroke='%23A67B5B' stroke-width='1.2'%3E%3Ccircle cx='150' cy='150' r='34' opacity='.55'/%3E%3Ccircle cx='150' cy='150' r='68' opacity='.45'/%3E%3Ccircle cx='150' cy='150' r='102' opacity='.35'/%3E%3Ccircle cx='150' cy='150' r='136' opacity='.26'/%3E%3C/g%3E%3Ccircle cx='150' cy='150' r='13' fill='%23C3513D' opacity='.5'/%3E%3C/svg%3E");
+  background-position:6% 16%; background-size:min(42vw,400px);
+}
+
 /* 区块的纸感水洗带 */
 #essays{background:linear-gradient(180deg, transparent 0%, rgba(251,244,234,.6) 8%, rgba(251,244,234,.6) 92%, transparent 100%);}
 #fragments{background:linear-gradient(180deg, transparent 0%, rgba(246,238,226,.6) 8%, rgba(246,238,226,.6) 92%, transparent 100%);}
+#diary{background:linear-gradient(180deg, transparent 0%, rgba(248,240,229,.6) 8%, rgba(248,240,229,.6) 92%, transparent 100%);}
 
 .sec-head{text-align:center; margin-bottom:clamp(2.4rem,5vw,3.6rem);}
 .sec-eyebrow{font-family:var(--font-serif); font-size:.72rem; letter-spacing:.4em; color:var(--tao); margin:0 0 .6rem; text-indent:.4em;}
@@ -302,6 +323,42 @@ body.admin-mode .card-more{display:none;}
 .frag p{font-family:var(--font-kai); font-size:clamp(1.08rem,3vw,1.22rem); margin:.3rem 0 .2rem; color:var(--jin);}
 .frag-tag{font-size:.72rem; color:var(--tao); border:1px solid rgba(166,123,91,.45); border-radius:.3rem; padding:.06rem .65rem;}
 
+/* 8.5 ── 日记（按月折叠 · 一天一条）── */
+.diary-bar{display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; justify-content:center; margin:0 0 1.7rem;}
+.diary-count{font-size:.82rem; color:var(--ink-faint); font-family:var(--font-serif); letter-spacing:.06em;}
+.diary-toggle{font-size:.82rem; padding:.28rem 1.05rem; border-radius:.3rem; border:1px solid var(--line); background:var(--paper); color:var(--shen); cursor:pointer; font-family:var(--font-serif); letter-spacing:.06em; transition:all .25s ease;}
+.diary-toggle:hover{border-color:var(--huo); color:var(--huo);}
+
+.diary-list{max-width:820px; margin:0 auto;}
+.diary-month{margin:0 0 1rem; border:1px solid var(--line); border-radius:.4rem; background:rgba(251,247,240,.74); box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 6px 18px rgba(78,62,46,.06);}
+.diary-month>.dm-head{display:flex; align-items:center; gap:.7rem; padding:.72rem 1.1rem; cursor:pointer; list-style:none; border-left:3px solid var(--huo); border-radius:.4rem .4rem 0 0; background:linear-gradient(90deg, rgba(195,81,61,.07), rgba(166,123,91,.03));}
+.dm-head::-webkit-details-marker{display:none;}
+.dm-label{font-family:var(--font-serif); font-weight:700; font-size:1rem; color:var(--jin); letter-spacing:.1em;}
+.dm-count{font-size:.76rem; color:var(--ink-faint); letter-spacing:.06em;}
+.dm-caret{margin-left:auto; font-size:.8rem; color:var(--tao); transition:transform .3s ease;}
+.diary-month[open]>.dm-head .dm-caret{transform:rotate(180deg);}
+.dm-body{padding:.35rem .85rem .8rem;}
+
+.diary-item{position:relative; border-bottom:1px dashed var(--line-soft);}
+.diary-item:last-child{border-bottom:0;}
+.diary-item>details>summary{position:relative; display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem; padding:.85rem 2.2rem .85rem .9rem; cursor:pointer; list-style:none; border-radius:.3rem;}
+.diary-item>details>summary::-webkit-details-marker{display:none;}
+.diary-item>details>summary:hover{background:rgba(195,81,61,.035);}
+.diary-item>details>summary::after{content:"＋"; position:absolute; top:.8rem; right:.85rem; color:var(--huo); font-family:var(--font-serif);}
+.diary-item>details[open]>summary::after{content:"－";}
+.diary-date{font-family:var(--font-serif); font-size:.98rem; color:var(--jin); letter-spacing:.06em;}
+.diary-week{font-size:.76rem; color:var(--ink-faint); margin-left:.4rem; letter-spacing:.06em;}
+.diary-weather,.diary-mood{font-size:.72rem; letter-spacing:.08em; border-radius:.25rem; padding:.04rem .6rem;}
+.diary-weather{color:var(--tao); border:1px solid rgba(166,123,91,.45);}
+.diary-mood{color:var(--huo); border:1px solid rgba(195,81,61,.4);}
+body:not(.admin-mode) .diary-weather:empty, body:not(.admin-mode) .diary-mood:empty{display:none;}
+body.admin-mode .diary-weather:empty::before{content:"天气"; color:var(--ink-faint);}
+body.admin-mode .diary-mood:empty::before{content:"心情"; color:var(--ink-faint);}
+.diary-preview{flex:1 1 100%; margin:.4rem 0 0; color:var(--ink-faint); font-size:.93rem; overflow:hidden; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
+.diary-item>details[open] .diary-preview{display:none;}
+.diary-body{border-top:1px dashed var(--line); margin:0 .9rem .95rem; padding:.9rem 0 0; color:var(--shen); font-size:1rem;}
+.diary-empty{text-align:center; color:var(--ink-faint); font-size:.95rem; margin:0; padding:1.6rem 0;}
+
 /* 9 ── 联系我 ─────────────────────────── */
 .contact-card{max-width:660px; margin:0 auto; background:var(--paper); border:1px solid var(--line); border-radius:.5rem; padding:clamp(2rem,5vw,3rem) clamp(1.4rem,4vw,2.6rem); text-align:center; box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 16px 40px rgba(78,62,46,.10);}
 .contact-card h3{font-size:1.5rem; margin:0 0 .7rem; letter-spacing:.1em;}
@@ -360,6 +417,7 @@ body.admin-mode [data-key]:hover, body.admin-mode [data-edit]:hover{outline-colo
 body.admin-mode [data-key]:focus, body.admin-mode [data-edit]:focus{outline-style:solid; background:rgba(195,81,61,.06);}
 body.admin-mode #adminGear{opacity:0; pointer-events:none;}
 body.admin-mode .card details summary::after{display:none;}
+body.admin-mode .diary-item>details>summary::after{display:none;}
 
 /* 12 ── 滚动渐显（沉静的内观节奏）── */
 .js .reveal{opacity:0; transform:translateY(26px); transition:opacity 1s ease, transform 1s ease;}
@@ -382,7 +440,9 @@ body.admin-mode .card details summary::after{display:none;}
   .doodle-earth{width:110px; right:5%; bottom:27%;}
   .contact-links .contact-item{flex:1 1 40%;}
   .admin-bar{font-size:.78rem;}
-  #about::before,#essays::before,#fragments::before{opacity:.035;}
+  #about::before,#essays::before,#fragments::before,#diary::before{opacity:.035;}
+  .dm-body{padding:.35rem .5rem .7rem;}
+  .diary-item>details>summary{padding:.8rem 2rem .8rem .6rem;}
 }
 
 
@@ -442,6 +502,7 @@ body.admin-mode .card details summary::after{display:none;}
     <a href="#about" class="">关于</a>
     <a href="#essays" class="active">随笔</a>
     <a href="#fragments" class="">碎片</a>
+    <a href="#diary" class="">日记</a>
     <a href="#contact">联系</a>
   </nav>
 </header>
@@ -621,6 +682,28 @@ body.admin-mode .card details summary::after{display:none;}
   </section>
 
   <!-- ═══════════════════════════════════
+       日记（一天一条，按月折叠；内容在 site-data 的 diary 里）
+       ═══════════════════════════════════ -->
+  <section class="section" id="diary">
+    <div class="section-inner">
+
+      <div class="sec-head reveal revealed">
+        <p class="sec-eyebrow" data-key="diaryEyebrow">DIARY</p>
+        <h2 class="sec-title" data-key="diaryTitle">日记</h2>
+        <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+        <p class="sec-sub" data-key="diarySub">以日为页，写当天的心事。点月份或某一天，就能折叠 / 展开。</p>
+      </div>
+
+      <!-- 日记天数 + 全部展开/收起（由脚本生成） -->
+      <div class="diary-bar" id="diaryBar"></div>
+      <!-- 日记列表由脚本根据 site-data 的 diary 生成（按月分组） -->
+      <div id="diaryList" class="diary-list" aria-label="日记列表"></div>
+      <button id="addDiary" class="admin-add hidden">＋ 写今天的日记</button>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
        联系我
        ═══════════════════════════════════ -->
   <section class="section" id="contact">
@@ -722,10 +805,15 @@ body.admin-mode .card details summary::after{display:none;}
 <a class="to-top show" href="#top" id="toTop" aria-label="回到顶部">↑</a>
 
 <!-- ═══════════════════════════════════════════════════
-     站点内容数据（文章、碎片都存这里）
-     · 想直接改文章，就编辑这里的 JSON
+     站点内容数据（文章、碎片、日记都存这里）
+     · 想直接改内容，就编辑这里的 JSON（改完记得点导出，或直接上传这个文件）
      · 每条文章字段：tag 分类 / title 标题 / date 日期 / teaser 摘要 / body 正文
      · 每条碎片字段：time 日期 / text 短句 / tag 标签
+     · 每条日记字段：date 日期 / weather 天气 / mood 心情 / body 正文
+         date 尽量写成 2026-10-06 这种；写成别的（2026年9月3日、10-06）也认，
+         完全认不出来的会排到最后的「未标注日期」。
+         weather / mood 可以留空字符串 ""，访客那边就不显示这个小标签。
+         body 里想换行，写 \n（导出的 JSON 会自动这么写）。
      ═══════════════════════════════════════════════════ -->
 <script type="application/json" id="site-data">{
   "version": 1789379242483,
@@ -1008,6 +1096,7 @@ body.admin-mode .card details summary::after{display:none;}
       "tag": "我自己生日"
     }
   ],
+  "diary": [],
   "avatar": "data:image/jpeg;base64,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"
 }</script>
 
@@ -1037,9 +1126,11 @@ try { saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch(e){}
 
 var state = (saved && saved.version > embedded.version)
   ? saved
-  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [], avatar: embedded.avatar || '' };
+  : { version: embedded.version, prose: {}, articles: embedded.articles || [], fragments: embedded.fragments || [], diary: embedded.diary || [], avatar: embedded.avatar || '' };
 /* 头像兜底（锁头像）：本机或内置哪边有真头像就用哪边，绝不让空头像把照片弄丢 */
 if (!state.avatar && embedded.avatar) state.avatar = embedded.avatar;
+/* 日记兜底：本机存的旧数据里可能还没有日记这一项，别让它把日记弄丢 */
+if (!state.diary) state.diary = embedded.diary || [];
 
 /* 把本机保存过的段落文字重新填回页面 */
 function applyProse(){
@@ -1105,10 +1196,102 @@ function renderFragments(){
   }).join('');
 }
 
+/* —— 渲染日记（按月分组，一天一条，都能折叠）—— */
+var WEEK = ['周日','周一','周二','周三','周四','周五','周六'];
+var diaryOpen = {};   /* 记住哪些月份/哪几天是展开的，重新渲染后不丢 */
+
+function pad2(n){ return (n < 10 ? '0' : '') + n; }
+
+/* 把自由写的日期解析成 年/月/日。
+   支持 2026-10-06、2026.10.6、2026年10月6日、2026/10/6；只写 10-06 就按今年算 */
+function parseDate(str){
+  var s = String(str == null ? '' : str).trim();
+  var m = s.match(/(\d{4})\s*[-.\/年]\s*(\d{1,2})\s*[-.\/月]\s*(\d{1,2})/);
+  if (m) return { y:+m[1], m:+m[2], d:+m[3] };
+  m = s.match(/^(\d{1,2})\s*[-.\/月]\s*(\d{1,2})/);
+  if (m) return { y:(new Date()).getFullYear(), m:+m[1], d:+m[2] };
+  return null;
+}
+function todayStr(){
+  var t = new Date();
+  return t.getFullYear() + '-' + pad2(t.getMonth() + 1) + '-' + pad2(t.getDate());
+}
+
+function renderDiary(){
+  var box = document.getElementById('diaryList');
+  var bar = document.getElementById('diaryBar');
+  if (!box) return;
+  var list = state.diary || [];
+
+  /* 按日期从新到旧排；没写清日期的排在最后 */
+  var rows = list.map(function(it, i){
+    var p = parseDate(it.date);
+    return { it: it, i: i, p: p, key: p ? (p.y * 10000 + p.m * 100 + p.d) : -1 };
+  });
+  rows.sort(function(a, b){
+    if (a.key !== b.key) return b.key - a.key;
+    return b.i - a.i;
+  });
+
+  /* 按「年-月」分组 */
+  var groups = [], gmap = {};
+  rows.forEach(function(r){
+    var gk = r.p ? (r.p.y + '-' + pad2(r.p.m)) : 'x';
+    if (!gmap[gk]) { gmap[gk] = { key: gk, label: r.p ? (r.p.y + ' 年 ' + r.p.m + ' 月') : '未标注日期', rows: [] }; groups.push(gmap[gk]); }
+    gmap[gk].rows.push(r);
+  });
+
+  box.innerHTML = groups.map(function(g, gi){
+    var mk = 'm:' + g.key;
+    var mopen = (mk in diaryOpen) ? diaryOpen[mk] : (gi === 0);   /* 最新的月份默认展开 */
+    var items = g.rows.map(function(r){
+      var it = r.it, ek = 'e:' + r.i;
+      var wk = '';
+      if (r.p) {
+        var dt = new Date(r.p.y, r.p.m - 1, r.p.d);
+        if (!isNaN(dt.getTime())) wk = '<span class="diary-week">' + WEEK[dt.getDay()] + '</span>';
+      }
+      var flat = String(it.body == null ? '' : it.body).replace(/\s+/g, ' ').trim();
+      var preview = flat ? (esc(flat.slice(0, 46)) + (flat.length > 46 ? '…' : '')) : '（还没写内容）';
+      return '<article class="diary-item reveal revealed" data-idx="' + r.i + '">'
+        + '<button class="admin-del" data-del-diary="' + r.i + '" title="删除这篇日记">✕</button>'
+        + '<details data-dkey="' + ek + '"' + (diaryOpen[ek] ? ' open' : '') + '>'
+        +   '<summary>'
+        +     '<span class="diary-date"><time data-edit="date" data-rendered="' + esc(it.date) + '">' + esc(it.date) + '</time>' + wk + '</span>'
+        +     '<span class="diary-weather" data-edit="weather">' + esc(it.weather) + '</span>'
+        +     '<span class="diary-mood" data-edit="mood">' + esc(it.mood) + '</span>'
+        +     '<div class="diary-preview">' + preview + '</div>'
+        +   '</summary>'
+        +   '<div class="diary-body" data-edit="body">' + esc(it.body) + '</div>'
+        + '</details>'
+        + '</article>';
+    }).join('');
+    return '<details class="diary-month" data-dkey="' + mk + '"' + (mopen ? ' open' : '') + '>'
+      + '<summary class="dm-head">'
+      +   '<span class="dm-label">' + esc(g.label) + '</span>'
+      +   '<span class="dm-count">' + g.rows.length + ' 天</span>'
+      +   '<span class="dm-caret" aria-hidden="true">▾</span>'
+      + '</summary>'
+      + '<div class="dm-body">' + items + '</div>'
+      + '</details>';
+  }).join('');
+
+  if (!groups.length) {
+    box.innerHTML = '<div class="diary-empty" data-key="diaryEmpty">还没有日记，等你写下第一篇。</div>';
+  }
+
+  if (bar) {
+    var anyOpen = box.querySelector('details[open]');
+    bar.innerHTML = '<span class="diary-count">共 ' + list.length + ' 天</span>'
+      + (list.length ? '<button class="diary-toggle" id="diaryToggle">' + (anyOpen ? '全部收起' : '全部展开') + '</button>' : '');
+  }
+}
+
 function renderAll(){
   renderFilter();
   renderArticles();
   renderFragments();
+  renderDiary();
   applyFilter();
   applyAvatar();
   makeEditable();
@@ -1133,7 +1316,12 @@ function getEditables(){
 /* 给没有 data-key 的文本元素自动分配稳定编号，让编辑能保存、刷新不丢 */
 function assignEditKeys(){
   var els = getEditables();
-  var n = 0;
+  /* 从已有编号之后接着排，避免新加的区块跟页面上写死的 auto-17…auto-22 撞号 */
+  var n = 0, used = document.querySelectorAll('[data-key^="auto-"]');
+  for (var u = 0; u < used.length; u++){
+    var num = parseInt(String(used[u].getAttribute('data-key')).slice(5), 10);
+    if (!isNaN(num) && num >= n) n = num + 1;
+  }
   for (var i = 0; i < els.length; i++){
     var el = els[i];
     if (!el.getAttribute('data-key') && !el.getAttribute('data-edit')){
@@ -1176,6 +1364,32 @@ function addFragment(){
   state.fragments.push({ time:'08-04', text:'一句新的想法……', tag:'灵光' });
   renderAll(); saveLocal();
 }
+/* 新增一篇日记：日期默认今天，并自动展开这一篇好让你马上写 */
+function addDiary(){
+  if (!state.diary) state.diary = [];
+  state.diary.push({ date: todayStr(), weather:'', mood:'', body:'今天……' });
+  var p = parseDate(state.diary[state.diary.length - 1].date);
+  if (p) diaryOpen['m:' + p.y + '-' + pad2(p.m)] = true;
+  diaryOpen['e:' + (state.diary.length - 1)] = true;
+  renderAll(); saveLocal();
+  status('已加上今天这一篇，点文字就能写 ✓');
+}
+
+/* 全部展开 / 全部收起 */
+function toggleDiaryAll(){
+  var box = document.getElementById('diaryList');
+  var btn = document.getElementById('diaryToggle');
+  if (!box) return;
+  var anyOpen = box.querySelector('details[open]');
+  var ds = box.querySelectorAll('details');
+  for (var i = 0; i < ds.length; i++) ds[i].open = !anyOpen;
+  if (btn) btn.textContent = anyOpen ? '全部展开' : '全部收起';
+}
+/* 记住每个月份/每一天的展开状态（toggle 不冒泡，用捕获阶段监听） */
+document.addEventListener('toggle', function(e){
+  var d = e.target;
+  if (d && d.dataset && d.dataset.dkey) diaryOpen[d.dataset.dkey] = d.open;
+}, true);
 
 /* —— 排序：在同一分类内上移/下移 —— */
 function moveArticle(idx, dir){
@@ -1217,6 +1431,8 @@ function applyFilter(){
 document.addEventListener('click', function(e){
   var chip = e.target.closest && e.target.closest('.tag-chip');
   if (chip) { currentFilter = chip.getAttribute('data-filter'); renderFilter(); applyFilter(); return; }
+  /* 日记的「全部展开 / 全部收起」游客也能用 */
+  if (e.target.closest && e.target.closest('#diaryToggle')) toggleDiaryAll();
 });
 
 /* —— 进入 / 退出编辑模式 —— */
@@ -1227,6 +1443,7 @@ function enterEditMode(){
   document.getElementById('adminBar').classList.remove('hidden');
   document.getElementById('addArticle').classList.remove('hidden');
   document.getElementById('addFragment').classList.remove('hidden');
+  document.getElementById('addDiary').classList.remove('hidden');
   makeEditable();
   status('编辑模式：点文字直接改，改完点「导出新文件」');
 }
@@ -1236,6 +1453,7 @@ function exitEditMode(){
   document.getElementById('adminBar').classList.add('hidden');
   document.getElementById('addArticle').classList.add('hidden');
   document.getElementById('addFragment').classList.add('hidden');
+  document.getElementById('addDiary').classList.add('hidden');
   makeEditable();
 }
 
@@ -1245,14 +1463,16 @@ function exportFile(){
     var tag = document.getElementById('site-data');
     var orig = tag.innerHTML;                       // 当前页面里内置的旧 JSON
     var newJSON = JSON.stringify(
-      { version: Date.now(), articles: state.articles, fragments: state.fragments, avatar: state.avatar || embedded.avatar || '' },
+      { version: Date.now(), articles: state.articles, fragments: state.fragments, diary: state.diary || [], avatar: state.avatar || embedded.avatar || '' },
       null, 2
     ).replace(/<\//g, '<\\/');                      // 防止正文里的结束标签破坏页面结构
 
     /* 先把界面上的卡片清空，导出的文件里只留干净容器，打开时脚本会重新生成 */
     var al = document.getElementById('articleList');
     var fl = document.getElementById('fragList');
-    al.innerHTML = ''; fl.innerHTML = '';
+    var dl = document.getElementById('diaryList');
+    var db = document.getElementById('diaryBar');
+    al.innerHTML = ''; fl.innerHTML = ''; dl.innerHTML = ''; db.innerHTML = '';
 
     /* 重要：导出前先剥离“编辑模式”状态，避免外人打开也进入编辑模式 */
     var wasAdmin = document.body.classList.contains('admin-mode');
@@ -1264,6 +1484,7 @@ function exportFile(){
     document.getElementById('adminBar').classList.add('hidden');
     document.getElementById('addArticle').classList.add('hidden');
     document.getElementById('addFragment').classList.add('hidden');
+    document.getElementById('addDiary').classList.add('hidden');
     var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     html = html.replace(orig, newJSON);             // 用新数据替换内置数据
 
@@ -1282,6 +1503,7 @@ function exportFile(){
       document.getElementById('adminBar').classList.remove('hidden');
       document.getElementById('addArticle').classList.remove('hidden');
       document.getElementById('addFragment').classList.remove('hidden');
+      document.getElementById('addDiary').classList.remove('hidden');
     }
     makeEditable();
     status('已生成新文件：用下载的 index.html 覆盖本地并上传发布');
@@ -1309,6 +1531,7 @@ document.getElementById('btnExport').addEventListener('click', exportFile);
 document.getElementById('btnExit').addEventListener('click', exitEditMode);
 document.getElementById('addArticle').addEventListener('click', addArticle);
 document.getElementById('addFragment').addEventListener('click', addFragment);
+document.getElementById('addDiary').addEventListener('click', addDiary);
 
 passInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') tryLogin(); });
 modal.addEventListener('click', function(e){ if (e.target === modal) hideLogin(); });
@@ -1341,10 +1564,32 @@ document.addEventListener('input', function(e){
     var item = edEl.closest('[data-idx]');
     if (item) {
       var idx = +item.getAttribute('data-idx');
-      var list = item.closest('#articleList') ? state.articles : state.fragments;
-      if (list && list[idx]) { list[idx][edit] = edEl.innerText; saveLocal(); }
+      var list = item.closest('#articleList') ? state.articles
+               : item.closest('#diaryList') ? state.diary
+               : state.fragments;
+      if (list && list[idx]) {
+        list[idx][edit] = edEl.innerText;
+        saveLocal();
+        /* 写日记正文时，顺手把折叠状态下那行小预览也更新掉 */
+        if (item.closest('#diaryList') && edit === 'body'){
+          var pv = item.querySelector('.diary-preview');
+          if (pv){
+            var flat = edEl.innerText.replace(/\s+/g, ' ').trim();
+            pv.textContent = flat ? (flat.slice(0, 46) + (flat.length > 46 ? '…' : '')) : '（还没写内容）';
+          }
+        }
+      }
     }
   }
+});
+
+/* 改完日期后（焦点离开时）重新按日期排序，写得规矩的日期自然归到对应月份 */
+document.addEventListener('focusout', function(e){
+  if (!body.classList.contains('admin-mode')) return;
+  var el = e.target.closest && e.target.closest('#diaryList [data-edit="date"]');
+  if (!el) return;
+  if (el.innerText.trim() === (el.getAttribute('data-rendered') || '')) return;
+  renderDiary(); makeEditable();
 });
 
 /* ================= 点击“✕”删除 ================= */
@@ -1354,6 +1599,8 @@ document.addEventListener('click', function(e){
   if (da) { state.articles.splice(+da.getAttribute('data-del-article'), 1); renderAll(); saveLocal(); return; }
   var df = e.target.closest && e.target.closest('[data-del-fragment]');
   if (df) { state.fragments.splice(+df.getAttribute('data-del-fragment'), 1); renderAll(); saveLocal(); return; }
+  var dd = e.target.closest && e.target.closest('[data-del-diary]');
+  if (dd) { if (confirm('要删掉这一天的日记吗？删了就找不回来了。')) { state.diary.splice(+dd.getAttribute('data-del-diary'), 1); renderAll(); saveLocal(); } return; }
   /* 排序：上移 / 下移（同一分类内） */
   var sup = e.target.closest && e.target.closest('[data-sort-up]');
   if (sup) { moveArticle(+sup.getAttribute('data-sort-up'), -1); return; }

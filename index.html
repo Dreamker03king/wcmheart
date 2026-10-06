@@ -6,6 +6,16 @@
 <meta name="description" content="山藏于地，谦而不卑。这里记录 wcmheart 的故事、想法与随笔。">
 <!-- 探测 JS 是否可用：只有脚本正常运行才启用渐显动画，防止页面空白 -->
 <script>document.documentElement.classList.add('js');</script>
+<!-- 阅读密码门：在浏览器画出任何内容之前，先决定“能不能看”，防止正文闪一下被瞄到 -->
+<script>
+(function(){
+  var ok = false;
+  try { ok = localStorage.getItem('wcmheart_read_ok') === '1'; } catch(e){}
+  var c = document.documentElement.classList;
+  if (ok) c.remove('gate-locked');   /* 本机记着密码 → 直接放行 */
+  else    c.add('gate-locked');      /* 没记着 → 整页藏起来，只显示密码门 */
+})();
+</script>
 
 <!--
   ════════════════════════════════════════════════════════════════════
@@ -13,17 +23,27 @@
    ════════════════════════════════════════════════════════════════════
    这是「单文件个人网站」，双击就能在浏览器打开，不用装软件、不用联网。
 
+   ▍两个密码（别搞混）
+   · 阅读密码 030317 —— 任何人打开网站，都要先输它才能看内容。
+     想改：搜脚本里的 READ_PASSWORD。
+   · 站长密码 qian2026 —— 只有你知道，用来进编辑模式改文字。
+     想改：搜脚本里的 ADMIN_PASSWORD。
+   【诚实提醒】阅读密码只是一道“门帘”：拦得住随手点开看的人，
+   拦不住懂技术的人（按 F12 看源码、或把网页文件下载下来，照样能读到里面写的字）。
+   真想让内容保密，得靠“加密”而不是“密码门”——需要的话找 Claude 做。
+
    ▍两种模式
-   · 访客模式（默认）：别人打开网站，只能看，改不了。
-   · 站长编辑模式（只有你）：点左下角的「⚙」齿轮，输入密码进入，
+   · 访客模式（默认）：别人打开网站，先输阅读密码 030317 才能看；能看，但改不了。
+   · 站长编辑模式（只有你）：点左下角的「⚙」齿轮，输入站长密码进入，
      进入后可以直接在页面上点文字修改，也能“＋新增”或“✕删除”文章/碎片/日记。
 
    ▍编辑流程
-   1. 点左下角 ⚙，输入密码（默认 qian2026，改法见文件底部脚本）
+   1. 点左下角 ⚙，输入站长密码 qian2026（改法：搜脚本里的 ADMIN_PASSWORD）
    2. 直接点任意文字，就地修改；改完会自动保存到本机（刷新不丢）
    3. 点底栏「⬇ 导出新文件」，浏览器会下载一个全新的 index.html
    4. 把这个新文件 ①覆盖本地的旧文件，②上传到你的网站空间发布
-   别人打开你发布的那份，看到的就是最新内容。
+   别人打开你发布的那份，看到的就是最新内容（第一次要先输阅读密码 030317）。
+   导出时页面会自动回到“上锁”状态，所以发布出去的那份一定是带密码的。
 
    ▍日记怎么用（2026-10-06 新增）
    · 进入站长模式后，点「＋ 写今天的日记」就会新增一篇，日期自动填成今天。
@@ -419,6 +439,36 @@ body.admin-mode #adminGear{opacity:0; pointer-events:none;}
 body.admin-mode .card details summary::after{display:none;}
 body.admin-mode .diary-item>details>summary::after{display:none;}
 
+/* 11.5 ── 阅读密码门（没输密码前，整页内容都藏着）── */
+/* 思路：html 上挂一个 gate-locked 类，把 body 里所有东西变隐形，只留密码门。
+   这样连“内容闪一下”都不会有，样式全在 CSS 里，脚本只管加减这个类。 */
+html.gate-locked{overflow:hidden;}
+html.gate-locked body > *{visibility:hidden;}
+#readGate{position:fixed; inset:0; z-index:9980; display:none; align-items:flex-start; justify-content:center; padding:1.5rem; overflow:auto;
+  background:radial-gradient(60% 42% at 50% 0%, rgba(195,81,61,.07), rgba(195,81,61,0) 70%), linear-gradient(165deg, var(--bg-1) 0%, var(--bg-2) 58%, var(--bg-3) 100%);}
+html.gate-locked #readGate{display:flex; visibility:visible;}
+.gate-card{margin:auto; width:min(92vw,29rem); padding:2.7rem 2rem 2.2rem; text-align:center; background:var(--paper); border:1px solid var(--line); border-radius:.5rem;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 18px 46px rgba(78,62,46,.14); animation:gateIn .55s ease both;}
+@keyframes gateIn{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;}}
+@keyframes gateShake{0%,100%{transform:translateX(0);} 18%{transform:translateX(-6px);} 38%{transform:translateX(6px);} 58%{transform:translateX(-4px);} 78%{transform:translateX(4px);}}
+.gate-card.shake{animation:gateShake .42s ease;}
+.gate-seal{width:2.9rem; height:2.9rem; margin:0 auto 1.25rem; display:grid; place-items:center; background:var(--huo); color:var(--mi); border-radius:.4rem;
+  font-family:var(--font-serif); font-size:1.35rem; box-shadow:0 5px 18px rgba(195,81,61,.32);}
+.gate-eyebrow{font-family:var(--font-serif); font-size:.7rem; letter-spacing:.42em; color:var(--tao); margin:0 0 .7rem; text-indent:.42em;}
+.gate-title{font-size:clamp(1.35rem,5vw,1.7rem); letter-spacing:.16em; margin:0 0 1.1rem; text-indent:.16em;}
+.gate-card .sec-rule{margin:0 0 1.2rem;}
+.gate-sub{color:var(--shen); font-size:.94rem; margin:0 0 1.5rem;}
+.gate-form{display:flex; gap:.55rem;}
+.gate-form input{flex:1; min-width:0; padding:.6rem .8rem; border:1px solid var(--line); border-radius:.3rem; font-size:1rem; text-align:center;
+  letter-spacing:.28em; font-family:var(--font-serif); background:var(--mi); color:var(--jin);}
+.gate-form input:focus{outline:none; border-color:var(--huo); box-shadow:0 0 0 3px rgba(195,81,61,.09);}
+.gate-form button{padding:.6rem 1.5rem; border-radius:.3rem; border:1px solid var(--huo); background:var(--huo); color:var(--mi); font-size:.92rem;
+  font-family:var(--font-serif); letter-spacing:.1em; cursor:pointer; transition:all .25s ease; white-space:nowrap;}
+.gate-form button:hover{background:var(--yu); border-color:var(--yu);}
+.gate-msg{min-height:1.2rem; margin:.85rem 0 0; font-size:.84rem; color:var(--huo); font-family:var(--font-serif); letter-spacing:.04em;}
+.gate-hint{margin:1.7rem 0 0; font-size:.78rem; color:var(--ink-faint); letter-spacing:.04em; line-height:1.7;}
+@media (prefers-reduced-motion: reduce){.gate-card{animation:none;} .gate-card.shake{animation:none;}}
+
 /* 12 ── 滚动渐显（沉静的内观节奏）── */
 .js .reveal{opacity:0; transform:translateY(26px); transition:opacity 1s ease, transform 1s ease;}
 .js .reveal.revealed{opacity:1; transform:none;}
@@ -485,6 +535,26 @@ body.admin-mode .diary-item>details>summary::after{display:none;}
 </head>
 
 <body class="">
+<!-- ═══════════════════════════════════
+     阅读密码门：没输密码前，整页内容都藏着，只显示这张卡片
+     （开关是 <html> 上的 gate-locked 类，样式在 CSS 的 11.5 段）
+     ═══════════════════════════════════ -->
+<div id="readGate" role="dialog" aria-label="阅读密码">
+  <div class="gate-card" id="gateCard">
+    <div class="gate-seal">谦</div>
+    <p class="gate-eyebrow">PRIVATE</p>
+    <h1 class="gate-title">此地需口令</h1>
+    <div class="sec-rule"><span class="rule-line"></span><span class="rule-diamond"></span><span class="rule-line"></span></div>
+    <p class="gate-sub">山藏于地，话藏于心。想读，请先输入阅读密码。</p>
+    <form class="gate-form" id="gateForm" autocomplete="off">
+      <input type="password" id="gatePass" placeholder="阅读密码" aria-label="阅读密码" autocomplete="off">
+      <button type="submit" id="gateOk">进入</button>
+    </form>
+    <p class="gate-msg" id="gateMsg" role="status" aria-live="polite"></p>
+    <p class="gate-hint">不知道密码？向站主索取。</p>
+  </div>
+</div>
+
 <!-- 余烬粒子背景层（暖色火星，不挡交互） -->
 <canvas id="emberField" aria-hidden="true" width="1910" height="873" style="width: 1698px; height: 776px;"></canvas>
 <!-- 岩彩水墨底纹：矿物颗粒 + 泥金微尘 -->
@@ -500,9 +570,9 @@ body.admin-mode .diary-item>details>summary::after{display:none;}
   </a>
   <nav class="nav-links">
     <a href="#about" class="">关于</a>
-    <a href="#essays" class="active">随笔</a>
+    <a href="#essays" class="">随笔</a>
     <a href="#fragments" class="">碎片</a>
-    <a href="#diary" class="">日记</a>
+    <a href="#diary" class="active">日记</a>
     <a href="#contact">联系</a>
   </nav>
 </header>
@@ -816,7 +886,7 @@ body.admin-mode .diary-item>details>summary::after{display:none;}
          body 里想换行，写 \n（导出的 JSON 会自动这么写）。
      ═══════════════════════════════════════════════════ -->
 <script type="application/json" id="site-data">{
-  "version": 1789379242483,
+  "version": 1791302126634,
   "articles": [
     {
       "tag": "随笔",
@@ -1096,7 +1166,14 @@ body.admin-mode .diary-item>details>summary::after{display:none;}
       "tag": "我自己生日"
     }
   ],
-  "diary": [],
+  "diary": [
+    {
+      "date": "2026-10-06",
+      "weather": "",
+      "mood": "",
+      "body": "这几天眼皮一直在跳，总感觉自己的运气很差很差，很多事情都是事与愿违或者说阴差阳错。心很累，想抓住的东西抓不住，房子不满意，对象也找不到，实习工作也不满意，我也不想跟我那群同学待在一起。他们脑子里面除了游戏就是无营养的下面的下三路的事情，几个连对象都没有的天天说，纯属性压抑，几句话说不到就说去洗脚按摩，我真的无语，听着我都生理性恶心，连现在听到他声音就尼玛皱眉、恶心。一群幼稚的人，只能看到眼前的一亩三分地，谈话聊天不是导师就是论文什么的，只能看到这些，关键讲的东西很浅显，要是很深刻就算了，真尼玛无聊，一群煞笔。海康威视的offer也没有拿到，研究所的领导也是煞笔，好大的官威，我真想抽他脸，傻鸟。"
+    }
+  ],
   "avatar": "data:image/jpeg;base64,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"
 }</script>
 
@@ -1307,7 +1384,7 @@ function getEditables(){
   for (var i = 0; i < els.length; i++){
     var el = els[i];
     if (!el.textContent || !el.textContent.replace(/\s/g, '')) continue;
-    if (el.closest && el.closest('button, input, textarea, select, .nav-links, #tagFilter, #adminBar, #adminModal, #adminGear, .tag-chip, .hero-xiu, #toTop, #rockBg, #emberField, .admin-bar, .doodle')) continue;
+    if (el.closest && el.closest('button, input, textarea, select, .nav-links, #tagFilter, #adminBar, #adminModal, #adminGear, #readGate, .tag-chip, .hero-xiu, #toTop, #rockBg, #emberField, .admin-bar, .doodle')) continue;
     if (el.tagName === 'A' && !el.getAttribute('data-key') && !el.classList.contains('hero-cta')) continue;
     out.push(el);
   }
@@ -1477,6 +1554,9 @@ function exportFile(){
     /* 重要：导出前先剥离“编辑模式”状态，避免外人打开也进入编辑模式 */
     var wasAdmin = document.body.classList.contains('admin-mode');
     if (wasAdmin) document.body.classList.remove('admin-mode');
+    /* 重要：导出的文件必须是“上锁”状态 —— 别人打开要先输阅读密码，绝不裸奔 */
+    var wasLocked = document.documentElement.classList.contains('gate-locked');
+    document.documentElement.classList.add('gate-locked');
     var ceEls = document.querySelectorAll('[contenteditable]');
     for (var cei = 0; cei < ceEls.length; cei++) ceEls[cei].removeAttribute('contenteditable');
     /* 导出时把管理界面恢复成“游客不可见”状态 */
@@ -1496,6 +1576,7 @@ function exportFile(){
     setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
 
     renderAll();                                    // 恢复界面上的卡片
+    if (!wasLocked) document.documentElement.classList.remove('gate-locked');   // 把密码门还原成站长原来的状态
 
     if (wasAdmin) {
       document.body.classList.add('admin-mode');
@@ -1539,6 +1620,39 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideLo
 
 /* 在地址后面加 #admin 打开时，直接弹出登录框 */
 if (location.hash === '#admin') showLogin();
+
+/* ================= 阅读密码门（访客要先输密码才能看内容）================= */
+/* ★ 阅读密码：改这一行。跟下面的站长密码 qian2026 完全是两码事。 */
+var READ_PASSWORD = '030317';
+/* 【诚实提醒】这只是一道“门帘”：懂技术的人按 F12 看源码、或把网页文件存下来，
+   照样能读到 site-data 里的正文。真要让内容保密，得用“加密”而不是“密码门”。 */
+var GATE_KEY = 'wcmheart_read_ok';   /* 输对一次就记在本机，以后打开不用再输 */
+
+var gateCard = document.getElementById('gateCard');
+var gateForm = document.getElementById('gateForm');
+var gatePass = document.getElementById('gatePass');
+var gateMsg  = document.getElementById('gateMsg');
+
+function gateRemembered(){
+  try { return localStorage.getItem(GATE_KEY) === '1'; } catch(e){ return false; }
+}
+function unlockGate(){
+  try { localStorage.setItem(GATE_KEY, '1'); } catch(e){}
+  document.documentElement.classList.remove('gate-locked');
+  if (gatePass) gatePass.value = '';
+  if (gateMsg) gateMsg.textContent = '';
+}
+function tryGate(){
+  if (!gatePass) return;
+  if (gatePass.value.trim() === READ_PASSWORD) { unlockGate(); status('欢迎回来 ✓'); return; }
+  if (gateMsg) gateMsg.textContent = '密码不对，再试一次。';
+  if (gateCard) { gateCard.classList.remove('shake'); void gateCard.offsetWidth; gateCard.classList.add('shake'); }
+  gatePass.select();
+}
+if (gateForm) gateForm.addEventListener('submit', function(e){ e.preventDefault(); tryGate(); });
+/* 页面加载完：本机记着密码就直接看；没记着就保持上锁，并把光标放进输入框 */
+if (gateRemembered()) document.documentElement.classList.remove('gate-locked');
+else setTimeout(function(){ if (gatePass) gatePass.focus(); }, 150);
 
 /* ================= 编辑文字：自动捕获修改 ================= */
 document.addEventListener('input', function(e){
